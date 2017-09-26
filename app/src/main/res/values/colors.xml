@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#47B5FF</color>
+    <color name="toolbar_color">#3C3F41</color>
+    <color name="toolbarTextColor">#ffffff</color>
+    <color name="popupMenuTextColor">#696969</color>
+    <color name="popupMenuBgColor">#ffffff</color>
+    <color name="start_color">#770000CD</color>
+    <color name="end_color">#770000CD</color>
+    <color name="listview_bg_color">#3C3F41</color>
+    <color name="listview_text_color">#BEBFBF</color>
+    <color name="listview_scroll_color">#ffffff</color>
+    <color name="refresh_color">#47B5FF</color>
+    <color name="meizi_text_bgColor">#903C3F41</color>
+    <color name="ImageLoadingBack">#45494A</color>
+</resources>

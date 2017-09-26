@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_home_refresh"
+        android:icon="@mipmap/refresh"
+        android:title="@string/refresh"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_home_copy_link"
+        android:title="@string/copy_link_address"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_home_open_from_browser"
+        android:title="@string/open_from_browser"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_home_save_to_local"
+        android:title="@string/save_local_web"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_home_exit"
+        android:title="@string/exit"
+        app:showAsAction="never"/>
+</menu>
