@@ -35,19 +35,30 @@ public class RetrofitUtils {
         mMeiziService = mMeiziRetrofit.create(MeiziService.class);
     }
 
+    private Call<BingBeanList> mBingCall;
+
     /**
      * 获取并解析json数据
      */
     public void getBingBean(Callback callback) {
-        Call<BingBeanList> call = mBingService.getBingBean(0, 1);//只解析第一条数据
-        call.enqueue(callback);
+        mBingCall = mBingService.getBingBean(0, 1);//只解析第一条数据
+        mBingCall.enqueue(callback);
     }
+
+    private Call<MeiziBeanList> mMeizhiCall;
 
     /**
      * 获取并解析json数据
      */
     public void getMeiziBean(Callback callback) {
-        Call<MeiziBeanList> call = mMeiziService.getMeiziBean(1, 1);//只解析第一条数据
-        call.enqueue(callback);
+        mMeizhiCall = mMeiziService.getMeiziBean(1, 1);//只解析第一条数据
+        mMeizhiCall.enqueue(callback);
+    }
+
+    public void cancel() {
+        if (mMeizhiCall != null && mBingCall != null) {
+            mMeizhiCall.cancel();
+            mBingCall.cancel();
+        }
     }
 }

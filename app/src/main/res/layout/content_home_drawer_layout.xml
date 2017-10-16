@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:background="@color/listview_bg_color">
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
-                android:background="@color/listview_bg_color">
+    <RelativeLayout
+        android:id="@+id/home_drawer_back"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </RelativeLayout>
 
     <ProgressBar
         android:id="@+id/home_list_progressBar"
@@ -19,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="空空的,心塞塞的..."
+        android:text="@string/not_contents"
         android:textColor="@color/refresh_color"/>
 
     <LinearLayout
@@ -139,4 +144,5 @@
         </LinearLayout>
 
     </LinearLayout>
+
 </RelativeLayout>

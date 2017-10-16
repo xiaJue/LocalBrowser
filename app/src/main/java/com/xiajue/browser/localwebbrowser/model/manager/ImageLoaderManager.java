@@ -9,6 +9,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedVignetteBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.xiajue.browser.localwebbrowser.R;
+import com.xiajue.browser.localwebbrowser.model.utils.L;
 
 /**
  * xiaJue 2017/9/8创建
@@ -48,6 +49,7 @@ public class ImageLoaderManager {
      */
     public void displayImage(String url, final ImageView imageView, ImageLoadingListener
             imageLoadingListener) {
+        L.e("load image url=" + url);
         ImageLoader.getInstance().displayImage(url, imageView, options, imageLoadingListener);
     }
 
@@ -57,5 +59,9 @@ public class ImageLoaderManager {
     public void loadImage(String url, ImageLoadingListener
             imageLoadingListener) {
         ImageLoader.getInstance().loadImage(url, imageLoadingListener);
+    }
+
+    public void cancel(ImageView imageView) {
+        ImageLoader.getInstance().cancelDisplayTask(imageView);
     }
 }

@@ -7,7 +7,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.xiajue.browser.localwebbrowser.R;
-import com.xiajue.browser.localwebbrowser.model.manager.SettingsManager;
+import com.xiajue.browser.localwebbrowser.model.manager.Settings;
+import com.xiajue.browser.localwebbrowser.model.manager.SettingsUtils;
 import com.xiajue.browser.localwebbrowser.model.utils.KeyBoardUtils;
 import com.xiajue.browser.localwebbrowser.view.activity.viewInterface.ISettingsView;
 
@@ -32,17 +33,17 @@ public class SettingsPresenter {
         switch (view.getId()) {
             case R.id.settings_start_blank:
                 if (isChecked)
-                    SettingsManager.putStartSettingsType(mContext, 0);
+                    Settings.putStartSettingsType(mContext, 0);
                 //blank
                 break;
             case R.id.settings_start_last:
                 //save last web url
                 if (isChecked)
-                    SettingsManager.putStartSettingsType(mContext, 1);
+                    Settings.putStartSettingsType(mContext, 1);
                 break;
             case R.id.settings_start_in:
                 if (isChecked) {
-                    SettingsManager.putStartSettingsType(mContext, 2);
+                    Settings.putStartSettingsType(mContext, 2);
                 }
                 mISettings.getInEditText().setVisibility(isChecked ? View.VISIBLE : View.GONE);
                 mISettings.getInSaveButton().setVisibility(isChecked ? View.VISIBLE : View
@@ -62,7 +63,7 @@ public class SettingsPresenter {
                             ("https://")) {
                         url = "http://" + url;
                     }
-                    SettingsManager.putSettingsString(mContext, SettingsManager.IN_URL, url);
+                    SettingsUtils.setInUrl(mContext, url);
                     //强制关闭软键盘
                     KeyBoardUtils.closeKeybord(mISettings.getInEditText(), mContext);
                 } else {
@@ -70,25 +71,25 @@ public class SettingsPresenter {
                 }
                 break;
             case R.id.settings_home_image_cb:
-                SettingsManager.putSettingsBoolean(mContext, SettingsManager.SHOW_HOME_IMAGE,
-                        mISettings.getActivity().mHomeImageCheckBox.isChecked() ? true : false);
+                SettingsUtils.setShowHomeImage(mContext,
+                        mISettings.getActivity().getHomeImageCheckBox().isChecked() ? true : false);
                 break;
             case R.id.settings_load_path_cb:
-                SettingsManager.putSettingsBoolean(mContext, SettingsManager.DON_LOAD_PATH,
-                        mISettings.getActivity().mLoadPathCheckBox.isChecked() ? true : false);
+                SettingsUtils.isDonLoad(mContext,
+                        mISettings.getActivity().getLoadPathCheckBox().isChecked() ? true : false);
                 break;
             case R.id.settings_slide_tag:
-                SettingsManager.putSettingsBoolean(mContext, SettingsManager.SLIDE_TAG, mISettings
-                        .getActivity().mSlideTagCheckBox.isChecked() ? true : false);
+                SettingsUtils.setSlideTag(mContext,mISettings
+                        .getActivity().getSlideTagCheckBox().isChecked() ? true : false);
                 break;
             case R.id.settings_file_path_button:
-                //TODO open dir select
-                openDirSelect(SettingsManager.getFileSavePath(mContext, "", ""),
+                // open dir select
+                openDirSelect(Settings.getFileSavePath(mContext, "", ""),
                         File_EX_FILE_PICKER_RESULT);
                 break;
             case R.id.settings_image_path_button:
-                //TODO open dir select
-                openDirSelect(SettingsManager.getImageSavePath(mContext, "", ""),
+                //open dir select
+                openDirSelect(Settings.getImageSavePath(mContext, "", ""),
                         IMAGE_EX_FILE_PICKER_RESULT);
                 break;
         }
@@ -117,13 +118,13 @@ public class SettingsPresenter {
         String path = result.getPath() + name;
         if (requestCode == File_EX_FILE_PICKER_RESULT) {
             if (result != null && result.getCount() > 0) {
-                mISettings.getActivity().mFilePathEditText.setText(path);
-                SettingsManager.setFileSavePath(mContext, path);
+                mISettings.getActivity().setFilePathEditText(path);
+                Settings.setFileSavePath(mContext, path);
             }
         } else if (requestCode == IMAGE_EX_FILE_PICKER_RESULT) {
             if (result != null && result.getCount() > 0) {
-                mISettings.getActivity().mImagePathEditText.setText(path);
-                SettingsManager.setImagePathEditText(mContext, path);
+                mISettings.getActivity().setImagePathEditText(path);
+                Settings.setImagePathEditText(mContext, path);
             }
         }
     }

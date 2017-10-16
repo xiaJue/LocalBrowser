@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -29,7 +30,8 @@ import com.xiajue.browser.localwebbrowser.model.database.DatabaseDao;
 import com.xiajue.browser.localwebbrowser.model.manager.DialogManager;
 import com.xiajue.browser.localwebbrowser.model.manager.DownloadManager;
 import com.xiajue.browser.localwebbrowser.model.manager.PopupManager;
-import com.xiajue.browser.localwebbrowser.model.manager.SettingsManager;
+import com.xiajue.browser.localwebbrowser.model.manager.Settings;
+import com.xiajue.browser.localwebbrowser.model.manager.SettingsUtils;
 import com.xiajue.browser.localwebbrowser.model.utils.L;
 import com.xiajue.browser.localwebbrowser.model.utils.SPUtils;
 import com.xiajue.browser.localwebbrowser.view.activity.viewInterface.IHomeView;
@@ -59,7 +61,7 @@ public class HomePresenter {
         this.mIHomeView = mIHomeView;
         mContext = (Context) mIHomeView;
         mPopupManager = new PopupManager(mContext);
-        mDatabaseDao = new DatabaseDao(mContext);
+        mDatabaseDao = DatabaseDao.getInstance(mContext);
         mDialogManager = new DialogManager();
         list_path = SPUtils.getInstance(mContext).getString("list_path");
         //init imageLoader
@@ -102,6 +104,10 @@ public class HomePresenter {
             case R.id.home_about_iv:
                 mIHomeView.getViewPager().setCurrentItem(2);
                 break;
+            case R.id.home_toolbar_text:
+                Toast.makeText(mContext, mIHomeView.getActivity().getToolbarTitle(), Toast
+                        .LENGTH_SHORT).show();
+                break;
         }
     }
 
@@ -110,7 +116,7 @@ public class HomePresenter {
      */
     private void showCollection() {
         //更新列表-只显示收藏的条目
-        mIHomeView.getActivity().mAllSee.setVisibility(View.VISIBLE);
+        mIHomeView.getActivity().setDrawerListShowAllButton();
         List collections = mDatabaseDao.select(new CollectionBean());
         mIHomeView.getList().clear();
         mIHomeView.getList().addAll(mDatabaseDao.transformBean(collections, DatabaseDao
@@ -123,7 +129,7 @@ public class HomePresenter {
      */
     private void showRemove() {
         //更新列表-只显示移除的条目
-        mIHomeView.getActivity().mAllSee.setVisibility(View.VISIBLE);
+        mIHomeView.getActivity().setDrawerListShowAllButton();
         List removes = mDatabaseDao.select(new RemoveBean());
         mIHomeView.getList().clear();
         mIHomeView.getList().addAll(mDatabaseDao.transformBean(removes, DatabaseDao
@@ -137,7 +143,7 @@ public class HomePresenter {
     private void showSearchEditText() {
         //隐藏搜索按钮，显示搜索输入框
         mIHomeView.getActivity().isNeedCloseSearch(false);
-        mIHomeView.getActivity().mSearchEdit.addTextChangedListener(new TextWatcher() {
+        mIHomeView.getActivity().getSearchEdit().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -149,7 +155,7 @@ public class HomePresenter {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //对数据进行搜索-将搜索结果更新到列表中
-                String text = mIHomeView.getActivity().mSearchEdit.getText().toString();
+                String text = mIHomeView.getActivity().getSearchEdit().getText().toString();
                 List list = mDatabaseDao.contains(new HomeListBean(text, "", 0, false,
                         false));//查询条件只需要name即可
                 mIHomeView.getList().clear();
@@ -193,8 +199,7 @@ public class HomePresenter {
                 new AsyncTask<Void, Void, Void>() {
                     @Override
                     protected Void doInBackground(Void... params) {
-                        if (SettingsManager.getSettingsBoolean(mContext, SettingsManager
-                                .DON_LOAD_PATH, true)) {
+                        if (SettingsUtils.isDonLoad(mContext, true)) {
                             mDatabaseDao.deleteAll(new HomeListBean());//删除所有数据
                             put2listFromFiles(mIHomeView.getList(), true);//从file-list中获取数据-存储到数据库中
                         } else {
@@ -206,17 +211,16 @@ public class HomePresenter {
                     @Override
                     protected void onPostExecute(Void aVoid) {
                         super.onPostExecute(aVoid);
-                        mIHomeView.getActivity().mPathTextView.setText(path);
+                        mIHomeView.getActivity().setPathText(path, 0);
                         mIHomeView.getAdapter().notifyDataSetChanged();
-                        mIHomeView.getActivity().mListProgressBar.setVisibility(View.GONE);
-                        mIHomeView.getActivity().mListNullTv.setVisibility(View.GONE);
-                        mIHomeView.getActivity().mSizeText.setText(mIHomeView.getActivity()
-                                .mListView.getFirstVisiblePosition() + "/" + mIHomeView.getList()
-                                .size());
+                        mIHomeView.getActivity().setListProgressBarVisible(View.GONE);
+                        mIHomeView.getActivity().setDrawerListSize(View.GONE, mIHomeView
+                                .getListView().getFirstVisiblePosition() + "/" + mIHomeView
+                                .getList().size());
                     }
                 }.execute();
-                mIHomeView.getActivity().mListProgressBar.setVisibility(View.VISIBLE);
-                mIHomeView.getActivity().mPathTextView.setText(R.string.data_loading);
+                mIHomeView.getActivity().setListProgressBarVisible(View.VISIBLE);
+                mIHomeView.getActivity().setPathText(null, R.string.data_loading);
                 SPUtils.getInstance(mContext).put("list_path", path);
             }
         }
@@ -261,16 +265,17 @@ public class HomePresenter {
     }
 
     /**
-     * menu-菜单选择时
+     * popupMenu选择时
      */
-    public void onMenuItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_home_refresh:
-                //刷新页面
-                if (mIHomeView.getViewPager().getCurrentItem() == 1)
-                    mIHomeView.getWebView().reload();
+    public void onItemSelect(int selectIndex) {
+        switch (selectIndex) {
+            case 0:
+                //关闭网页
+                if (mIHomeView.getViewPager().getCurrentItem() == 1) {
+                    mIHomeView.getWebFragment().closeLoad();
+                }
                 break;
-            case R.id.menu_home_copy_link:
+            case 1:
                 if (mIHomeView.getViewPager().getCurrentItem() == 1) {
                     String url_address = mIHomeView.getWebView().getUrl();
                     ClipboardManager cm = (ClipboardManager) mContext.getSystemService(Context
@@ -281,7 +286,7 @@ public class HomePresenter {
                     Toast.makeText(mContext, "嗯..该页面没有链接噢", Toast.LENGTH_SHORT).show();
                 }
                 break;
-            case R.id.menu_home_open_from_browser:
+            case 2:
                 //从浏览器打开链接
                 if (mIHomeView.getViewPager().getCurrentItem() == 1) {
                     String url = mIHomeView.getWebView().getUrl();
@@ -292,9 +297,14 @@ public class HomePresenter {
                     openLinkFromBrowser(url);
                 }
                 break;
-            case R.id.menu_home_save_to_local:
+            case 3:
                 //保存离线网页
-                String fileName = SettingsManager.getFileSavePath(mContext,
+                if (mIHomeView.getViewPager().getCurrentItem() != 1 || mIHomeView.getWebView()
+                        .getUrl() == null || mIHomeView.getWebView().getUrl().length() <= 0 &&
+                        mIHomeView.getWebView().isError()) {
+                    return;
+                }
+                String fileName = Settings.getFileSavePath(mContext,
                         mIHomeView.getWebView().getTitle(), ".mht");
                 if (!new File(fileName).exists()) {
                     try {
@@ -302,6 +312,12 @@ public class HomePresenter {
                         Toast.makeText(mContext, R.string.save_local_web_success, Toast
                                 .LENGTH_SHORT)
                                 .show();
+                        // 添加到侧滑菜单listView中
+                        HomeListBean bean = new HomeListBean(new File(fileName).getName(), fileName,
+                                SystemClock.currentThreadTimeMillis(), false, false);
+                        mDatabaseDao.add(bean);
+                        mIHomeView.getList().add(bean);
+                        mIHomeView.getAdapter().notifyDataSetChanged();
                     } catch (Resources.NotFoundException e) {
                         Toast.makeText(mContext, R.string.save_local_web_failure, Toast
                                 .LENGTH_SHORT)
@@ -311,10 +327,22 @@ public class HomePresenter {
                     Toast.makeText(mContext, R.string.save_local_web_exist, Toast.LENGTH_SHORT)
                             .show();
                 }
-
                 break;
-            case R.id.menu_home_exit:
-                ((Activity) mContext).finish();
+            case 4:
+                mIHomeView.getActivity().finish();
+                break;
+        }
+    }
+
+    /**
+     * menu-菜单选择时
+     */
+    public void onMenuItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_home_refresh:
+                //刷新页面
+                if (mIHomeView.getViewPager().getCurrentItem() == 1)
+                    mIHomeView.getWebView().reload();
                 break;
         }
     }
@@ -451,8 +479,7 @@ public class HomePresenter {
                 mIHomeView.getWebView().loadUrl("file://" + bean.getAbsPath());
                 L.e(mIHomeView.getList().get(position).getAbsPath());
                 mIHomeView.getDrawerLayout().closeDrawer(Gravity.START);
-                mIHomeView.getActivity().mToolbarText.setText(bean.getName());
-
+                mIHomeView.getActivity().setToolbarTitle(bean.getName());
                 if (!mIHomeView.getWebView().isShown()) {
                     mIHomeView.getWebView().setVisibility(View.VISIBLE);
                 }
@@ -505,7 +532,7 @@ public class HomePresenter {
                 L.e(result.getExtra());
                 String path = result.getExtra();
                 //下载图片
-                DownloadManager.download(SettingsManager.getImageSavePath(mContext, getFileName
+                DownloadManager.download(Settings.getImageSavePath(mContext, getFileName
                         (path), ""), path, new DownloadManager.DownloadCallback() {
                     @Override
                     public void success(File file) {
@@ -518,8 +545,9 @@ public class HomePresenter {
                             }
                         });
                         //通知系统图库更新
-                        mContext.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse
-                                ("file://" + file)));
+                        mContext.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                                Uri.parse
+                                        ("file://" + file)));
                     }
 
                     @Override
@@ -561,10 +589,11 @@ public class HomePresenter {
         List homes = mDatabaseDao.select(new HomeListBean());
         list.clear();
         list.addAll(homes);
-        mIHomeView.getActivity().mListNullTv.setVisibility(list.size() > 0 ? View.GONE : View
-                .VISIBLE);
-        mIHomeView.getActivity().mSizeText.setText(mIHomeView.getActivity()
-                .mListView.getFirstVisiblePosition() + "/" + mIHomeView.getList()
+        //是否显示
+        int visibility = list.size() > 0 ? View.GONE : View.VISIBLE;
+        mIHomeView.getActivity().setDrawerListSize(visibility, mIHomeView.getListView()
+                .getFirstVisiblePosition() + "/" + mIHomeView
+                .getList()
                 .size());
     }
 
@@ -574,4 +603,12 @@ public class HomePresenter {
     public void showHome() {
         mIHomeView.getViewPager().setCurrentItem(0);
     }
+
+    /**
+     * 销毁-防止内存泄漏
+     */
+    public void destroy() {
+        mIHomeView.getHomeFragment().cancelLoadImage();
+    }
+
 }

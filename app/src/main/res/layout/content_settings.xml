@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@drawable/settings_item_bg"
+            android:background="@drawable/yy_item_bg"
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:padding="10dp">
@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="启动时:"
+                android:text="@string/settings_start"
                 android:textSize="16sp"/>
 
             <RadioGroup
@@ -38,7 +38,7 @@
                     android:button="@null"
                     android:drawableLeft="@drawable/settings_radio_bg"
                     android:drawablePadding="5dp"
-                    android:text="空白页"
+                    android:text="@string/settings_white"
                     android:textColor="#88000000"
                     android:textSize="13sp"/>
 
@@ -50,7 +50,7 @@
                     android:button="@null"
                     android:drawableLeft="@drawable/settings_radio_bg"
                     android:drawablePadding="5dp"
-                    android:text="从上次停下的地方继续"
+                    android:text="@string/settings_last"
                     android:textColor="#88000000"
                     android:textSize="13sp"/>
 
@@ -62,7 +62,7 @@
                     android:button="@null"
                     android:drawableLeft="@drawable/settings_radio_bg"
                     android:drawablePadding="5dp"
-                    android:text="打开特定的网页"
+                    android:text="@string/settings_in"
                     android:textColor="#88000000"
                     android:textSize="13sp"/>
             </RadioGroup>
@@ -82,7 +82,7 @@
                     android:drawablePadding="5dp"
                     android:editable="false"
                     android:focusable="false"
-                    android:hint="输入网址..."
+                    android:hint="@string/settings_input"
                     android:textSize="13sp"
                     android:visibility="gone"/>
 
@@ -90,7 +90,7 @@
                     android:id="@+id/settings_start_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="保存"
+                    android:text="@string/save"
                     android:textSize="13sp"
                     android:visibility="gone"/>
             </LinearLayout>
@@ -101,7 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@drawable/settings_item_bg"
+            android:background="@drawable/yy_item_bg"
             android:gravity="center_vertical"
             android:padding="10dp">
 
@@ -109,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="显示首页每日图片"/>
+                android:text="@string/settings_show_image"/>
 
             <CheckBox
                 android:id="@+id/settings_home_image_cb"
@@ -125,7 +125,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@drawable/settings_item_bg"
+            android:background="@drawable/yy_item_bg"
             android:gravity="center_vertical"
             android:padding="10dp">
 
@@ -138,14 +138,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:text="禁止加载多个目录的文件"
+                    android:text="@string/settings_dont_load_path"
                     android:textSize="16sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:text="不管选择了多少次目录都只加载最新选择的目录内的文件"
+                    android:text="@string/settings_dont_load_path_text"
                     android:textSize="13dp"/>
             </LinearLayout>
 
@@ -163,7 +163,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@drawable/settings_item_bg"
+            android:background="@drawable/yy_item_bg"
             android:gravity="center_vertical"
             android:padding="10dp">
 
@@ -176,14 +176,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:text="滑动切换Tag"
+                    android:text="@string/settings_scroll_tag"
                     android:textSize="16sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:text="带有类似图片滑动的网页可能会带来滑动冲突"
+                    android:text="@string/settings_scroll_tag_text"
                     android:textSize="13dp"/>
             </LinearLayout>
 
@@ -201,7 +201,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@drawable/settings_item_bg"
+            android:background="@drawable/yy_item_bg"
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:padding="10dp">
@@ -210,7 +210,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="离线网页保存路径"
+                android:text="@string/local_web_save_path"
                 android:textSize="16sp"/>
 
             <LinearLayout
@@ -228,14 +228,14 @@
                     android:drawablePadding="5dp"
                     android:editable="false"
                     android:focusable="false"
-                    android:hint="输入保存路径"
+                    android:hint="@string/settings_input_save_path"
                     android:textSize="13sp"/>
 
                 <Button
                     android:id="@+id/settings_file_path_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="选择"
+                    android:text="@string/settings_selete"
                     android:textSize="13sp"/>
 
             </LinearLayout>
@@ -247,7 +247,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@drawable/settings_item_bg"
+            android:background="@drawable/yy_item_bg"
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:padding="10dp">
@@ -256,7 +256,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="图片保存路径"
+                android:text="@string/settings_image_save_path"
                 android:textSize="16sp"/>
 
             <LinearLayout
@@ -274,14 +274,14 @@
                     android:drawablePadding="5dp"
                     android:editable="false"
                     android:focusable="false"
-                    android:hint="输入保存路径"
+                    android:hint="@string/settings_input_save_path"
                     android:textSize="13sp"/>
 
                 <Button
                     android:id="@+id/settings_image_path_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="选择"
+                    android:text="@string/settings_selete"
                     android:textSize="13sp"/>
 
             </LinearLayout>

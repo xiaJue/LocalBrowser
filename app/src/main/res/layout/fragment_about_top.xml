@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/icon"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/about_text_style"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/about_by"
+                    android:textSize="15sp"/>
+
+                <TextView
+                    style="@style/about_text_style"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/version"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            style="@style/about_text_style"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="55dp"
+            android:text="@string/app_string"/>
+
+        <TextView
+            android:id="@+id/home_about_address"
+            style="@style/about_text_style"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="55dp"
+            android:text="@string/this_project_address"
+            android:visibility="visible"/>
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

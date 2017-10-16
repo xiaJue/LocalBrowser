@@ -125,4 +125,12 @@ public class ImagePresenter {
             Toast.makeText(mContext, R.string.save_exist, Toast.LENGTH_SHORT).show();
         }
     }
+
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.image_iv:
+                ((Activity) mContext).finish();
+                break;
+        }
+    }
 }

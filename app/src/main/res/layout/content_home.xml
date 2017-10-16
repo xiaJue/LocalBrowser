@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/home_drawLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -58,6 +57,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <include layout="@layout/content_home_drawerlayout"/>
+    <include layout="@layout/content_home_drawer_layout"/>
 
 </com.xiajue.browser.localwebbrowser.view.custom.XJDrawerLayout>

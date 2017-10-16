@@ -7,6 +7,7 @@
     <color name="toolbarTextColor">#ffffff</color>
     <color name="popupMenuTextColor">#696969</color>
     <color name="popupMenuBgColor">#ffffff</color>
+    <color name="popupMenuBgColor_pressed">#666666</color>
     <color name="start_color">#770000CD</color>
     <color name="end_color">#770000CD</color>
     <color name="listview_bg_color">#3C3F41</color>

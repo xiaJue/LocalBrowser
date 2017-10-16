@@ -5,18 +5,18 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.xiajue.browser.localwebbrowser.R;
-import com.xiajue.browser.localwebbrowser.model.utils.L;
 import com.xiajue.browser.localwebbrowser.presenter.ImagePresenter;
 import com.xiajue.browser.localwebbrowser.view.activity.viewInterface.IImageView;
 
 /**
  * xiaJue 2017/9/20创建
  */
-public class ImageActivity extends BaseActivity implements IImageView {
+public class ImageActivity extends BaseActivity implements IImageView, View.OnClickListener {
     private SubsamplingScaleImageView mImageView;
     private Toolbar mToolbar;
     private TextView mTitleTextView;
@@ -34,7 +34,6 @@ public class ImageActivity extends BaseActivity implements IImageView {
     private void set() {
         String url = getIntent().getStringExtra("image_url");
         String type = getIntent().getStringExtra("type");
-        L.e("set");
         mPresenter.loadImage(url);
 
         mTitleTextView.setText(type);
@@ -42,6 +41,8 @@ public class ImageActivity extends BaseActivity implements IImageView {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mImageView.setOnClickListener(this);
     }
 
     private void bindView() {
@@ -83,5 +84,10 @@ public class ImageActivity extends BaseActivity implements IImageView {
     @Override
     public TextView getTitleTextView() {
         return mTitleTextView;
+    }
+
+    @Override
+    public void onClick(View v) {
+        mPresenter.onClick(v);
     }
 }

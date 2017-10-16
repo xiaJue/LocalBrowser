@@ -13,7 +13,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 
 import com.xiajue.browser.localwebbrowser.R;
-import com.xiajue.browser.localwebbrowser.model.manager.SettingsManager;
+import com.xiajue.browser.localwebbrowser.model.manager.Settings;
+import com.xiajue.browser.localwebbrowser.model.manager.SettingsUtils;
 import com.xiajue.browser.localwebbrowser.model.utils.KeyBoardUtils;
 import com.xiajue.browser.localwebbrowser.presenter.SettingsPresenter;
 import com.xiajue.browser.localwebbrowser.view.activity.viewInterface.ISettingsView;
@@ -73,7 +74,7 @@ public class SettingsActivity extends BaseActivity implements CompoundButton
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //set start type
-        int type = SettingsManager.getStartSettingsType(this);
+        int type = Settings.getStartSettingsType(this);
         switch (type) {
             case 0:
                 mBlankButton.setChecked(true);
@@ -88,16 +89,13 @@ public class SettingsActivity extends BaseActivity implements CompoundButton
                 break;
         }
         //if start type==2 ,set editText text
-        mInEditText.setText(SettingsManager.getSettingsString(this, SettingsManager.IN_URL));
-        mHomeImageCheckBox.setChecked(SettingsManager.getSettingsBoolean(this, SettingsManager
-                .SHOW_HOME_IMAGE, true));
-        mLoadPathCheckBox.setChecked(SettingsManager.getSettingsBoolean(this, SettingsManager
-                .DON_LOAD_PATH, true));
-        mSlideTagCheckBox.setChecked(SettingsManager.getSettingsBoolean(this, SettingsManager
-                .SLIDE_TAG, false));
+        mInEditText.setText(SettingsUtils.getInUrl(this));
+        mHomeImageCheckBox.setChecked(SettingsUtils.isShowHomeImage(this, true));
+        mLoadPathCheckBox.setChecked(SettingsUtils.isDonLoad(this, true));
+        mSlideTagCheckBox.setChecked(SettingsUtils.isSlideTag(this, true));
         //set file path and image path editText
-        mFilePathEditText.setText(SettingsManager.getFileSavePath(this, "", ""));
-        mImagePathEditText.setText(SettingsManager.getImageSavePath(this,"",""));
+        mFilePathEditText.setText(Settings.getFileSavePath(this, "", ""));
+        mImagePathEditText.setText(Settings.getImageSavePath(this, "", ""));
         //set all view clickListener
         mBlankButton.setOnCheckedChangeListener(this);
         mLastButton.setOnCheckedChangeListener(this);
@@ -148,6 +146,26 @@ public class SettingsActivity extends BaseActivity implements CompoundButton
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        mPresenter.onActivityResult(requestCode,resultCode,data);
+        mPresenter.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void setFilePathEditText(String path) {
+        mFilePathEditText.setText(path);
+    }
+
+    public void setImagePathEditText(String path) {
+        mImagePathEditText.setText(path);
+    }
+
+    public CheckBox getHomeImageCheckBox() {
+        return mHomeImageCheckBox;
+    }
+
+    public CheckBox getLoadPathCheckBox() {
+        return mLoadPathCheckBox;
+    }
+
+    public CheckBox getSlideTagCheckBox() {
+        return mSlideTagCheckBox;
     }
 }

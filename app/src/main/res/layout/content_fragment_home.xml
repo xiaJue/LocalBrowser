@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/home_home_root_v"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F0F0"
+    android:orientation="vertical">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/home_home_refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/content_fragment_s"/>
+        <com.xiajue.browser.localwebbrowser.view.custom.XJNestedScrollView
+            android:id="@+id/home_home_nested"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <include layout="@layout/content_fragment_homts"/>
+
+        </com.xiajue.browser.localwebbrowser.view.custom.XJNestedScrollView>
 
     </android.support.v4.widget.SwipeRefreshLayout>
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

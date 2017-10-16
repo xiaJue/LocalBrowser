@@ -12,38 +12,45 @@
     <string name="cancel_collection">已取消收藏</string>
     <string name="muYou">木有加载啊...</string>
     <string name="ok">确定</string>
-    <string name="is_remove">是否要移除该条目?</string>
+    <string name="is_remove">是否要移除并扭送到"移除"列表?</string>
     <string name="cancel">取消</string>
     <string name="is_delete">是否永久删除?</string>
     <string name="delete_success">删除成功</string>
     <string name="delete_failure">删除失败</string>
-    <string name="data_loading">数据加载中...</string>
-    <string name="is_add2all_list">是否添加回到\"所有\"列表?</string>
-    <string name="select_path">点我选择目录....</string>
+    <string name="data_loading">使劲加载中...</string>
+    <string name="is_add2all_list">是否放回\"所有\"列表?</string>
+    <string name="select_path">Click我选择目录....</string>
     <string name="input_select_content_hint">输入要查找的内容...</string>
     <string name="sheJi_kaiFa"><![CDATA[设计&开发]]></string>
     <string name="OpenSource">
-        tencentX5WebView \n
-        exfilepicker2.1\n
-        swipeLayout\n
-        retrofit:2.3.0\n
-        greendao:3.2.2\
-        ngson:2.0.0\n
-        image-loader\n
-        subsampling-scale-image-view:3.6.0\n
+    tbs_sdk_thirdapp.jar\n
+    ru.bartwell:exfilepicker:2.1\n
+    com.android.support:design:25.2.0\n
+    com.daimajia.swipelayout:library:1.2.0@aar\n
+    org.greenrobot:greendao:3.2.2\n
+    com.squareup.retrofit2:converter-gson:2.0.0-beta4\n
+    com.squareup.retrofit2:converter-scalars:2.0.0-beta4\n
+    universal-image-loader-1.9.5.jar\n
+    com.davemorrissey.labs:subsampling-scale-image-view:3.6.0\n
+    popupwindowmenu:1.0\n\n
+        首页图片『每日一妹子』来源:\n
+        <html><a href='http://gank.io/'>gank.io</a>干货集中营\n
+        『风景图片』来源:\n
+            <a href='https://bing.ioliu.cn/'>bing.ioliu.cn</a>必应图片</html>
     </string>
-    <string name="app_string">一个本地的网页浏览器。比如在手机里用浏览器保存了本地网页可以用这个打开。但是它也可以进行联网的网络访问。拥有一个真正的浏览器的功能</string>
+    <string name="app_string">本地的网页浏览器。可以方便地浏览手机里缓存的网页。也可浏览/缓存在线网页。</string>
     <string name="meizi_text">每日一妹子</string>
     <string name="save">保存</string>
     <string name="share">分享</string>
-    <string name="share_how">分享到哪里嘞...</string>
-    <string name="save_exist">已经保存过了哦</string>
+    <string name="share_how">分享到哪里...</string>
+    <string name="save_exist">保存过了</string>
     <string name="settings">设置</string>
     <string name="is_null">网址为空...</string>
-    <string name="click_again">再按一次退出</string>
+    <string name="click_again">再按一次试试!</string>
+    <string name="finish_toast">哼</string>
     <string name="home">首页</string>
     <string name="about">关于</string>
-    <string name="web">Web</string>
+    <string name="web">浏览</string>
     <string name="help">使用帮助:</string>
     <string name="help_add">打开侧滑菜单,点击选择目录,选择你的网页文件目录,如:"Storage/sdcard/QQBrowser/网页保存/" 等待数据加载完成即可。</string>
     <string name="help_link">如果点击本地网页文件中的网络链接,则需要网络才能打开。</string>
@@ -57,4 +64,44 @@
     <string name="save_local_web_success">保存离线网页成功</string>
     <string name="save_local_web_exist">已经保存过了啦</string>
     <string name="save_local_web_failure">网页保存失败</string>
+    <string name="address_error">地址错误呢</string>
+    <string name="xiajue_name">夏觉</string>
+    <string name="kaiyuan_shujuyuan">开源库/数据源:</string>
+    <string name="load_error">访问网站出错</string>
+    <string name="load_success_not_title">无标题</string>
+    <string name="about_by">本地网页浏览器:LocalWebBrowser</string>
+    <string name="version">版本:1.0</string>
+    <string name="this_project_address">项目地址:『https://github.com/xiaJue/LocalBrowser』</string>
+    <string name="web_error_by">无法访问此网站</string>
+    <string name="web_error_text">该网站拒绝我们连接或网络连接超时</string>
+    <string name="settings_start">启动时:</string>
+    <string name="settings_white">空白页</string>
+    <string name="settings_last">从上次停下的地方继续</string>
+    <string name="settings_in">打开特定的网页</string>
+    <string name="settings_input">输入网址...</string>
+    <string name="settings_show_image">显示首页每日图片</string>
+    <string name="settings_dont_load_path">禁止加载多个目录的文件</string>
+    <string name="settings_dont_load_path_text">不管选择了多少次目录都只加载最新选择的目录内的文件</string>
+    <string name="settings_scroll_tag">滑动切换Tag</string>
+    <string name="settings_scroll_tag_text">带有类似图片滑动的网页可能会带来滑动冲突</string>
+    <string name="local_web_save_path">离线网页保存路径</string>
+    <string name="settings_input_save_path">输入保存路径</string>
+    <string name="settings_selete">选择</string>
+    <string name="settings_image_save_path">图片保存路径</string>
+    <string name="in_url_open">通过网址打开网页?</string>
+    <string name="input_url">请输入网址</string>
+    <string name="load_history">浏览历史</string>
+    <string name="clear">清空</string>
+    <string name="close_web">关闭网页</string>
+    <string name="delete">删除</string>
+    <string name="headerTitle">操作</string>
+    <string name="picture_bing"><![CDATA[Picture&Bing]]></string>
+    <string name="pb_project_address">项目地址:『github.com/xiaJue/PictureBing』</string>
+    <string name="download">APK『下载』</string>
+    <string name="pb_by">每天更新一张清晰风景图片。</string>
+    <string name="not_contents">还没有内容...</string>
+    <string name="daShang">该软件完全开源。如果它对你有帮助，可以分享给你的朋友。也可以请我吃包辣条。点击复制我的『支付宝』</string>
+    <string name="download_success">下载成功</string>
+    <string name="download_failure">下载失败</string>
+    <string name="start_download">开始下载...</string>
 </resources>

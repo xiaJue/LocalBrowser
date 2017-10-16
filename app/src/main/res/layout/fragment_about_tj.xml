@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/pb_icon"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/about_text_style"
+                android:layout_marginBottom="5dp"
+                android:text="@string/picture_bing"
+                android:textSize="15sp"/>
+
+            <TextView
+                style="@style/about_text_style"
+                android:layout_marginBottom="5dp"
+                android:text="@string/pb_by"/>
+
+            <TextView
+                android:id="@+id/home_about_pd_pro_address"
+                style="@style/about_text_style"
+                android:padding="5dp"
+                android:text="@string/pb_project_address"/>
+
+            <TextView
+                android:id="@+id/home_about_pd_apk_download"
+                style="@style/about_text_style"
+                android:padding="5dp"
+                android:text="@string/download"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

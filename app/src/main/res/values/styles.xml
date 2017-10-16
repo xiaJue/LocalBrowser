@@ -33,4 +33,10 @@
         <item name="android:windowBackground">@drawable/window_background</item>
     </style>
 
+    <style name="about_text_style">
+        <item name="android:textIsSelectable">true</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
 </resources>

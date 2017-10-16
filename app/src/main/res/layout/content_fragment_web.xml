@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/listview_bg_color"
-              android:orientation="vertical">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/listview_bg_color"
+    android:orientation="vertical">
 
     <ProgressBar
         android:id="@+id/home_progressBar"
         style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="2dp"
         android:max="100"
         android:progressDrawable="@drawable/progressbar"
         android:visibility="gone"/>
@@ -19,6 +20,8 @@
     <!--android:layout_width="match_parent"-->
     <!--android:layout_height="match_parent">-->
 
+    <include layout="@layout/content_fragment_web_error"/>
+
     <com.xiajue.browser.localwebbrowser.view.custom.ExtendedWebView
         android:id="@+id/home_webView"
         android:layout_width="match_parent"
@@ -27,4 +30,5 @@
 
     </com.xiajue.browser.localwebbrowser.view.custom.ExtendedWebView>
     <!--</android.support.v4.widget.SwipeRefreshLayout>-->
+
 </LinearLayout>

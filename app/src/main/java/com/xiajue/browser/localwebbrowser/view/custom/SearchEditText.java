@@ -20,7 +20,7 @@ import com.xiajue.browser.localwebbrowser.model.utils.DensityUtils;
 public class SearchEditText extends RelativeLayout implements TextWatcher {
     private TextView mTextView;
     private TextView mButtonTextView;
-    private ClearEditText mEditText;
+    private EditText mEditText;
 
     private String mText = "点击打开";
     private String mTextHint = "请输入..";
@@ -58,7 +58,7 @@ public class SearchEditText extends RelativeLayout implements TextWatcher {
         mTextView = new TextView(context);
         mTextView.setText(mText);
         mTextView.setTextSize(mTextSize);
-//        mTextView.setTextColor(mTextColor);
+//        mTitleTv.setTextColor(mTextColor);
 
         mEditText = new ClearEditText(context);
         mEditText.setLayoutParams(lp);
@@ -67,6 +67,7 @@ public class SearchEditText extends RelativeLayout implements TextWatcher {
         mEditText.setTextSize(mTextSize);
         mEditText.setVisibility(GONE);//默认隐藏editText
         mEditText.addTextChangedListener(this);
+        mEditText.setMaxLines(1);
 //        mEditText.setTextColor(mTextColor);
 
         mButtonTextView = new TextView(context);

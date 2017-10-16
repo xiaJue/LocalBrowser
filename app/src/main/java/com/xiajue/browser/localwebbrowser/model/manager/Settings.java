@@ -10,7 +10,7 @@ import java.io.File;
 /**
  * xiaJue 2017/9/22创建
  */
-public class SettingsManager {
+public class Settings {
     public static String START_KEY = "web_start_type";
     public static String LAST_URL = "last_url";
     public static String IN_URL = "in_url";

@@ -3,12 +3,14 @@ package com.xiajue.browser.localwebbrowser.model.database;
 import android.content.Context;
 
 import com.xiajue.browser.localwebbrowser.model.bean.CollectionBean;
+import com.xiajue.browser.localwebbrowser.model.bean.HistoryBean;
 import com.xiajue.browser.localwebbrowser.model.bean.HomeListBean;
 import com.xiajue.browser.localwebbrowser.model.bean.IBean;
 import com.xiajue.browser.localwebbrowser.model.bean.RemoveBean;
 import com.xiajue.browser.localwebbrowser.model.database.greenUtils.CollectionBeanDao;
 import com.xiajue.browser.localwebbrowser.model.database.greenUtils.DaoMaster;
 import com.xiajue.browser.localwebbrowser.model.database.greenUtils.DaoSession;
+import com.xiajue.browser.localwebbrowser.model.database.greenUtils.HistoryBeanDao;
 import com.xiajue.browser.localwebbrowser.model.database.greenUtils.HomeListBeanDao;
 import com.xiajue.browser.localwebbrowser.model.database.greenUtils.RemoveBeanDao;
 
@@ -23,12 +25,13 @@ public class DatabaseDao {
     public static final int DATA_COLLECTION = 817;
     public static final int DATA_REMOVE = 467;
 
-    public DatabaseDao(Context context) {
+    private DatabaseDao(Context context) {
         DaoSession daoSession = DaoMaster.newDevSession(context, "web_list.db");
 
         mHomeDao = daoSession.getHomeListBeanDao();
         mCollectionBeanDao = daoSession.getCollectionBeanDao();
         mRemoveBeanDao = daoSession.getRemoveBeanDao();
+        mHistoryBeanDao = daoSession.getHistoryBeanDao();
     }
 
     private static DatabaseDao mDatabaseDao;
@@ -48,6 +51,7 @@ public class DatabaseDao {
     private HomeListBeanDao mHomeDao;
     private CollectionBeanDao mCollectionBeanDao;
     private RemoveBeanDao mRemoveBeanDao;
+    private HistoryBeanDao mHistoryBeanDao;
 
     /**
      * 插入一条数据
@@ -103,7 +107,7 @@ public class DatabaseDao {
     }
 
     /**
-     * 查询所有的数据
+     * 删除数据
      *
      * @param bean IBean的子类
      * @param type 需要存入的类型-该方法会自动转换
@@ -255,5 +259,46 @@ public class DatabaseDao {
             }
         }
         return beanList;
+    }
+
+    /**
+     * 插入一条History数据
+     */
+    public void add(HistoryBean bean) {
+        mHistoryBeanDao.insert(bean);
+    }
+
+    /**
+     * 删除一条History数据
+     */
+    public void delete(HistoryBean bean) {
+        mHistoryBeanDao.delete(bean);
+    }
+
+    /**
+     * 查询所有的History数据
+     */
+    public List<HistoryBean> selectHistory() {
+        return mHistoryBeanDao.queryBuilder().build().list();
+    }
+
+    /**
+     * 查询History数据条目个数
+     */
+    public int selectHistorySize() {
+        return mHistoryBeanDao.queryBuilder().build().listLazy().size();
+    }
+
+    /**
+     * 查询数据是否存在
+     */
+    public boolean isExistHistory(HistoryBean bean) {
+        List<HistoryBean> list = mHistoryBeanDao.queryBuilder().where(HistoryBeanDao
+                .Properties.LastLoad.eq(bean.getLastLoad())).build().list();
+        return list.size() > 0;
+    }
+
+    public void deleteAllHistory() {
+        mHistoryBeanDao.deleteAll();
     }
 }
