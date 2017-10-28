@@ -8,7 +8,7 @@
     <!-- 中间logo -->
     <item>
         <bitmap
-            android:gravity="center"
+            android:gravity="bottom"
             android:src="@mipmap/start"/>
     </item>
 

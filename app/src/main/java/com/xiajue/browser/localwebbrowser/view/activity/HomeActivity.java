@@ -30,6 +30,7 @@ import com.xiajue.browser.localwebbrowser.R;
 import com.xiajue.browser.localwebbrowser.adapter.HomeListAdapter;
 import com.xiajue.browser.localwebbrowser.model.Config;
 import com.xiajue.browser.localwebbrowser.model.bean.HomeListBean;
+import com.xiajue.browser.localwebbrowser.model.manager.HomeEventManager;
 import com.xiajue.browser.localwebbrowser.model.manager.SettingsUtils;
 import com.xiajue.browser.localwebbrowser.model.utils.FastBlurUtils;
 import com.xiajue.browser.localwebbrowser.model.utils.KeyBoardUtils;
@@ -47,6 +48,8 @@ import com.xiajue.popupmenu.popupWindowMenu.PopWinMenu;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.security.AccessController.getContext;
+
 public class HomeActivity extends BaseActivity implements IHomeView, View.OnClickListener,
         PopWinMenu.OnItemSelectListener {
 
@@ -55,7 +58,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
     private ExtendedViewPager mViewPager;
     private ActionBarDrawerToggle mToggle;
     private List mList;
-    public TextView mToolbarText;
+    private TextView mToolbarText;
     public ProgressBar mListProgressBar;
     //list view
     public ListView mListView;
@@ -79,8 +82,8 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
     //menu
     private PopWinMenu mPopupMenu;
     //fragment
-    public WebFragment mWebFragment;
-    public HomeFragment mHomeFragment;
+    private WebFragment mWebFragment;
+    private HomeFragment mHomeFragment;
     private AboutFragment mAboutFragment;
     private List<Fragment> mFragmentList;
 
@@ -109,7 +112,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
         mSearch = getView(R.id.home_search);
         mSearchEdit = getView(R.id.home_search_edit);
         mViewPager = getView(R.id.home_viewPager);
-        mWebFragment = new WebFragment(mPresenter);
+        mWebFragment = new WebFragment(mPresenter, this);
         mHomeFragment = new HomeFragment();
         mAboutFragment = new AboutFragment();
         mHome = getView(R.id.home_home_iv);
@@ -139,14 +142,25 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
         String path = SPUtils.getInstance(this).getString("list_path", getString(R.string
                 .select_path));
         mPathTextView.setText(path);
+        setPopupMenu();
+    }
+
+    private void setPopupMenu() {
         //set overflow menu
         mPopupMenu = new PopWinMenu(this, mToolbar);
-        mPopupMenu.setDivider(1, Color.WHITE);
+        mPopupMenu.setBackgroundColorRes(R.color.toolbar_color);
+        mPopupMenu.setDivider(1, Color.parseColor("#2B2B2B"));
+        mPopupMenu.setOnTouchItemBgColor(Color.parseColor("#313335"));
         mPopupMenu.add(new int[]{R.string.close_web, R.string.copy_link_address, R.string
-                .open_from_browser,
-                R.string.save_local_web, R.string.exit}, null, 0, 16, 0, null);
+                        .open_from_browser,
+                        R.string.save_local_web, R.string.exit}, new int[]{R.mipmap.close, R
+                        .mipmap.copy,
+                        R.mipmap.browser, R.mipmap.menu_save, R.mipmap.exit}, android.R.color
+                        .white, 16,
+                0, null);
         mPopupMenu.setOnItemSelectListener(this);
         mPopupMenu.setMarginTop(-2);
+        mPopupMenu.setMarginHorizontal(10);
     }
 
     private void setViewPager() {
@@ -192,23 +206,19 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
                 mHome.setImageResource(R.mipmap.home);
                 mAbout.setImageResource(R.mipmap.about_out);
                 mWeb.setImageResource(R.mipmap.web_out);
-                mToolbarText.setText(R.string.home);
+                HomeEventManager.getInstance().setToolbarTitle(getString(R.string.home), true);
                 break;
             case 1:
                 mWeb.setImageResource(R.mipmap.web);
                 mHome.setImageResource(R.mipmap.home_out);
                 mAbout.setImageResource(R.mipmap.about_out);
-                if (getWebView().getTitle() == null || getWebView().getTitle().isEmpty()) {
-                    mToolbarText.setText(R.string.web);
-                } else {
-                    mToolbarText.setText(getWebView().getTitle());
-                }
+                HomeEventManager.getInstance().setToolbarTitle(getWebView().getTitle());
                 break;
             case 2:
                 mAbout.setImageResource(R.mipmap.about);
                 mHome.setImageResource(R.mipmap.home_out);
                 mWeb.setImageResource(R.mipmap.web_out);
-                mToolbarText.setText(R.string.about);
+                HomeEventManager.getInstance().setToolbarTitle(getString(R.string.about), true);
                 break;
         }
     }
@@ -218,7 +228,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mToolbarText.setText(R.string.home);
+        HomeEventManager.getInstance().setToolbarTitle(getString(R.string.home), true);
         mToolbarText.setOnClickListener(this);
     }
 
@@ -346,7 +356,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
             return;
         }
         super.onBackPressed();
-        Toast.makeText(this, R.string.finish_toast, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, R.string.finish_toast, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -509,5 +519,9 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
 
     public EditText getSearchEdit() {
         return mSearchEdit;
+    }
+
+    public PopWinMenu getPopupMenu() {
+        return mPopupMenu;
     }
 }

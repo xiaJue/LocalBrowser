@@ -142,19 +142,6 @@ public class HomeFragment extends BaseFramtag implements View.OnClickListener, S
                     mNestedScrollView.setCancelScroll(false);
 //                    L.e("恢复滑动");
                 }
-//                else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                //如果手势是向下，并且getChildAt(0).getTop()==0,则恢复滑动
-//                    if (lastY < event.getY() && mListView.getChildAt(0).getTop() >= -10) {
-//                        mNestedScrollView.setCancelScroll(false);
-//                    }   //如果手势是向上，并且getChildAt(mList.size()).getBottom()==mListView.getBottom,
-////                    // 则恢复滑动
-//                    int bottom = mListView.getChildAt(mListView.getChildCount() - 1).getBottom();
-//                    if (lastY > event.getY() &&
-//                            mListView.getChildAt(mListView.getChildCount() - 1) != null &&
-//                            (bottom <= mListView.getHeight() + 10)) {
-//                        mNestedScrollView.setCancelScroll(false);
-//                    }
-//                }
                 return false;
             }
         });

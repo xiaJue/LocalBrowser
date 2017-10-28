@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    android:layout_marginTop="10dp">
+    android:layout_margin="10dp"
+    android:background="@drawable/yy_item_bg"
+    android:padding="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,15 +41,17 @@
                 android:id="@+id/home_about_pd_pro_address"
                 style="@style/about_text_style"
                 android:padding="5dp"
-                android:text="@string/pb_project_address"/>
+                android:text="@string/pb_project_address"
+                android:textIsSelectable="false"/>
 
             <TextView
                 android:id="@+id/home_about_pd_apk_download"
                 style="@style/about_text_style"
                 android:padding="5dp"
-                android:text="@string/download"/>
+                android:text="@string/download"
+                android:textIsSelectable="false"/>
 
         </LinearLayout>
 
     </LinearLayout>
-</android.support.v7.widget.CardView>
+</LinearLayout>

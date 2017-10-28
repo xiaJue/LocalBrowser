@@ -29,10 +29,10 @@ public abstract class ExtendedWebViewClient extends WebViewClient {
     @Override
     public void onPageFinished(WebView webView, String s) {
         super.onPageFinished(webView, s);
-        ((ExtendedWebView) webView).onLoadFinish();
-        if (!isError) {
+        if (!isError && webView.getUrl() != null) {
             onLoadSuccess();
         }
+        ((ExtendedWebView) webView).onLoadFinish();
     }
 
     public abstract void onLoadError();

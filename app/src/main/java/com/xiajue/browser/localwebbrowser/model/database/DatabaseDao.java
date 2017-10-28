@@ -117,11 +117,14 @@ public class DatabaseDao {
             case DATA_COLLECTION:
                 delete(new CollectionBean(bean.getName(), bean.getAbsPath(), bean.getLastModified
                         ()));
+                break;
             case DATA_REMOVE:
                 delete(new RemoveBean(bean.getName(), bean.getAbsPath(), bean.getLastModified()));
+                break;
             case DATA_HOME:
                 delete(new HomeListBean(bean.getName(), bean.getAbsPath(), bean.getLastModified()
                         , false, false));
+                break;
         }
     }
 

@@ -15,6 +15,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 /**
@@ -25,6 +28,7 @@ public class PopWinMenu {
     private static final int OVERFLOW_ID = 507;
     private PopWinHandle mPopWinHandle;
     private View view;
+    private List<View> mItemViews;
     //context
     private Context mContext;
     //location
@@ -39,6 +43,7 @@ public class PopWinMenu {
         mWidth = window.getDefaultDisplay().getWidth();
         mMenuWidth = mWidth / 7 * 4;
         initialize(context, view);
+        mItemViews = new ArrayList<>();
     }
 
     public PopWinMenu(Context context, View view, int menuWidth) {
@@ -278,6 +283,7 @@ public class PopWinMenu {
             }
         });
         mPopWinHandle.getLayout().addView(itemView);
+        mItemViews.add(itemView);
     }
 
     /**
@@ -561,6 +567,28 @@ public class PopWinMenu {
      */
     public void setAnimationStyle(int animationStyle) {
         mPopWinHandle.getPopupWindow().setAnimationStyle(animationStyle);
+    }
+
+    /**
+     * 获得指定条目
+     *
+     * @param index 条目下标
+     * @return view
+     */
+    public View getItemView(int index) {
+        if (index > mItemViews.size() - 1 || index < 0) {
+            return null;
+        }
+        return mItemViews.get(index);
+    }
+
+    /**
+     * 获得指定条目
+     *
+     * @return List<View>
+     */
+    public List<View> getItemViews() {
+        return mItemViews;
     }
 
     /**

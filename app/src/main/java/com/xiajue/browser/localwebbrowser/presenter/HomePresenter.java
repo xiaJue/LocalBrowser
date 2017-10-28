@@ -4,14 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.SystemClock;
-import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,10 +25,12 @@ import com.xiajue.browser.localwebbrowser.model.bean.RemoveBean;
 import com.xiajue.browser.localwebbrowser.model.database.DatabaseDao;
 import com.xiajue.browser.localwebbrowser.model.manager.DialogManager;
 import com.xiajue.browser.localwebbrowser.model.manager.DownloadManager;
+import com.xiajue.browser.localwebbrowser.model.manager.HomeEventManager;
 import com.xiajue.browser.localwebbrowser.model.manager.PopupManager;
 import com.xiajue.browser.localwebbrowser.model.manager.Settings;
 import com.xiajue.browser.localwebbrowser.model.manager.SettingsUtils;
 import com.xiajue.browser.localwebbrowser.model.utils.L;
+import com.xiajue.browser.localwebbrowser.model.utils.OpenFileUtils;
 import com.xiajue.browser.localwebbrowser.model.utils.SPUtils;
 import com.xiajue.browser.localwebbrowser.view.activity.viewInterface.IHomeView;
 
@@ -53,6 +51,7 @@ public class HomePresenter {
     private PopupManager mPopupManager;
     private DialogManager mDialogManager;
     private DatabaseDao mDatabaseDao;
+    private HomeEventManager mEventManager;
 
     private static final int EX_FILE_PICKER_RESULT = 250;
     private String list_path;
@@ -68,6 +67,10 @@ public class HomePresenter {
         ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault
                 (mContext);
         ImageLoader.getInstance().init(configuration);
+
+        HomeEventManager.initializeInstance(mContext, mIHomeView);
+//        mEventManager.initializeWebView(mIHomeView.getWebView());
+        mEventManager = HomeEventManager.getInstance();
     }
 
     /**
@@ -201,9 +204,9 @@ public class HomePresenter {
                     protected Void doInBackground(Void... params) {
                         if (SettingsUtils.isDonLoad(mContext, true)) {
                             mDatabaseDao.deleteAll(new HomeListBean());//删除所有数据
-                            put2listFromFiles(mIHomeView.getList(), true);//从file-list中获取数据-存储到数据库中
+                            put2listFromFiles(true);//从file-list中获取数据-存储到数据库中
                         } else {
-                            put2listFromFiles(mIHomeView.getList());//从file-list中获取数据-存储到数据库中
+                            put2listFromFiles();//从file-list中获取数据-存储到数据库中
                         }
                         return null;
                     }
@@ -229,10 +232,10 @@ public class HomePresenter {
     /**
      * click-activity Result 从文件目录列表中加载Home数据到list
      */
-    public void put2listFromFiles(List list, boolean... isClear) {
+    public void put2listFromFiles(boolean... isClear) {
         if (isClear.length > 0 && isClear[0]) {
-            L.e("clear");
-            list.clear();
+//            L.e("clear");
+            mIHomeView.getList().clear();
         }
         File file = new File(list_path);
         if (list_path == null || !file.exists()) {
@@ -240,27 +243,22 @@ public class HomePresenter {
         }
         String[] lists = file.list();
         for (int i = 0; i < lists.length; i++) {
-            //path
+            //绝对路径
             String path = list_path + File.separator + lists[i];
-            //只显示文件
+            //跳过文件夹
             File theFile = new File(path);
             if (!theFile.isFile()) {
                 continue;
             }
-            long modified = theFile.lastModified();//最后访问时间
+            //最后访问时间
+            long modified = theFile.lastModified();
             //创建和初始化Bean
             HomeListBean bean = new HomeListBean(lists[i], path, modified, false, false);
-            boolean isCollection = mDatabaseDao.isExist(bean);//是否收藏
-            bean.isCollection = isCollection;
-            //过滤已经remove掉的
-            boolean isRemove = mDatabaseDao.isExist(bean, DatabaseDao.DATA_REMOVE);//是否移除
-            bean.isRemove = isRemove;
-            if (!mDatabaseDao.isExist(bean)) {
-                mDatabaseDao.add(bean);
-                if (!isRemove) {
-                    list.add(bean);
-                }
-            }
+            //是否被收藏
+            bean.isCollection = mDatabaseDao.isExist(bean);
+            //是否被remove
+            bean.isRemove = mDatabaseDao.isExist(bean, DatabaseDao.DATA_REMOVE);//是否移除
+            mEventManager.addToDrawerLayoutList(bean, true);
         }
     }
 
@@ -271,65 +269,21 @@ public class HomePresenter {
         switch (selectIndex) {
             case 0:
                 //关闭网页
-                if (mIHomeView.getViewPager().getCurrentItem() == 1) {
-                    mIHomeView.getWebFragment().closeLoad();
-                }
+                mEventManager.menuCloseWeb();
                 break;
             case 1:
-                if (mIHomeView.getViewPager().getCurrentItem() == 1) {
-                    String url_address = mIHomeView.getWebView().getUrl();
-                    ClipboardManager cm = (ClipboardManager) mContext.getSystemService(Context
-                            .CLIPBOARD_SERVICE);
-                    cm.setText(url_address);
-                    Toast.makeText(mContext, R.string.copy_success, Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(mContext, "嗯..该页面没有链接噢", Toast.LENGTH_SHORT).show();
-                }
+                mEventManager.menuCopyLink();
                 break;
             case 2:
                 //从浏览器打开链接
-                if (mIHomeView.getViewPager().getCurrentItem() == 1) {
-                    String url = mIHomeView.getWebView().getUrl();
-                    if (url == null || url.length() <= 0) {
-                        Toast.makeText(mContext, R.string.muYou, Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    openLinkFromBrowser(url);
-                }
+                mEventManager.menuBrowserOpen();
                 break;
             case 3:
                 //保存离线网页
-                if (mIHomeView.getViewPager().getCurrentItem() != 1 || mIHomeView.getWebView()
-                        .getUrl() == null || mIHomeView.getWebView().getUrl().length() <= 0 &&
-                        mIHomeView.getWebView().isError()) {
-                    return;
-                }
-                String fileName = Settings.getFileSavePath(mContext,
-                        mIHomeView.getWebView().getTitle(), ".mht");
-                if (!new File(fileName).exists()) {
-                    try {
-                        mIHomeView.getWebView().saveWebArchive(fileName);
-                        Toast.makeText(mContext, R.string.save_local_web_success, Toast
-                                .LENGTH_SHORT)
-                                .show();
-                        // 添加到侧滑菜单listView中
-                        HomeListBean bean = new HomeListBean(new File(fileName).getName(), fileName,
-                                SystemClock.currentThreadTimeMillis(), false, false);
-                        mDatabaseDao.add(bean);
-                        mIHomeView.getList().add(bean);
-                        mIHomeView.getAdapter().notifyDataSetChanged();
-                    } catch (Resources.NotFoundException e) {
-                        Toast.makeText(mContext, R.string.save_local_web_failure, Toast
-                                .LENGTH_SHORT)
-                                .show();
-                    }
-                } else {
-                    Toast.makeText(mContext, R.string.save_local_web_exist, Toast.LENGTH_SHORT)
-                            .show();
-                }
+                mEventManager.menuSaveWeb();
                 break;
             case 4:
-                mIHomeView.getActivity().finish();
+                mEventManager.menuExit();
                 break;
         }
     }
@@ -345,17 +299,6 @@ public class HomePresenter {
                     mIHomeView.getWebView().reload();
                 break;
         }
-    }
-
-    /**
-     * menu-从浏览器打开链接
-     */
-    private void openLinkFromBrowser(String extra) {
-        Intent intent = new Intent();
-        intent.setAction("android.intent.action.VIEW");
-        Uri content_url = Uri.parse(extra);
-        intent.setData(content_url);
-        mContext.startActivity(intent);
     }
 
     /**
@@ -393,21 +336,7 @@ public class HomePresenter {
                 DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
-                        if (!bean.isRemove) {
-                            //未remove
-                            if (!mDatabaseDao.isExist(bean, DatabaseDao.DATA_REMOVE)) {
-                                mDatabaseDao.add(bean, DatabaseDao.DATA_REMOVE);
-                                //添加到remove数据表
-                            }
-                        } else {
-                            //已remove
-                            if (mDatabaseDao.isExist(bean, DatabaseDao.DATA_REMOVE)) {
-                                mDatabaseDao.delete(bean, DatabaseDao.DATA_REMOVE);
-                                //从remove数据表移除并添加到home数据表
-                                mDatabaseDao.add(bean);
-                            }
-                        }
+                        mEventManager.removeItem(bean);
                         removeListViewItem(position);
                     }
                 });
@@ -432,18 +361,7 @@ public class HomePresenter {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         HomeListBean bean = mIHomeView.getList().get(position);
-                        String absPath = bean.getAbsPath();//文件路径
-                        boolean delete = new File(absPath).delete();//删除文件
-                        Toast.makeText(mContext, delete ? mContext.getString(R.string
-                                .delete_success) :
-                                mContext.getString(R.string.delete_failure), Toast
-                                .LENGTH_SHORT)
-                                .show();//显示土司
-                        if (delete) {
-                            mDatabaseDao.delete(bean, DatabaseDao.DATA_COLLECTION);//从
-                            // 收藏数据表删除
-                            mDatabaseDao.delete(bean, DatabaseDao.DATA_REMOVE);//从移除数据表删除
-                        }
+                        mEventManager.deleteItem(bean);
                         removeListViewItem(position);
                     }
                 });
@@ -454,17 +372,7 @@ public class HomePresenter {
      */
     private void doCollection(int position) {
         HomeListBean bean = mIHomeView.getList().get(position);
-        if (mDatabaseDao.isExist(bean, DatabaseDao.DATA_COLLECTION)) {
-            //显示已取消收藏并改变图标
-            mDatabaseDao.delete(bean, DatabaseDao.DATA_COLLECTION);
-            Toast.makeText(mContext, R.string.cancel_collection, Toast.LENGTH_SHORT).show();
-            bean.isCollection = false;
-        } else {
-            //显示已收藏并改变图标
-            mDatabaseDao.add(bean, DatabaseDao.DATA_COLLECTION);
-            Toast.makeText(mContext, R.string.collection, Toast.LENGTH_SHORT).show();
-            bean.isCollection = true;
-        }
+        mEventManager.collectionItem(bean);
     }
 
     /**
@@ -474,16 +382,7 @@ public class HomePresenter {
         return new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mIHomeView.getAdapter().closeAllItems();
-                HomeListBean bean = mIHomeView.getList().get(position);
-                mIHomeView.getWebView().loadUrl("file://" + bean.getAbsPath());
-                L.e(mIHomeView.getList().get(position).getAbsPath());
-                mIHomeView.getDrawerLayout().closeDrawer(Gravity.START);
-                mIHomeView.getActivity().setToolbarTitle(bean.getName());
-                if (!mIHomeView.getWebView().isShown()) {
-                    mIHomeView.getWebView().setVisibility(View.VISIBLE);
-                }
-                mIHomeView.getViewPager().setCurrentItem(1);
+                mEventManager.selectItem(position);
             }
         };
     }
@@ -509,7 +408,7 @@ public class HomePresenter {
                         @Override
                         public void onOpenLink() {
                             String extra = result.getExtra();
-                            openLinkFromBrowser(extra);
+                            OpenFileUtils.openLinkFromBrowser(((Activity) mContext), extra);
                         }
                     });
                     return true;
@@ -589,7 +488,7 @@ public class HomePresenter {
         List homes = mDatabaseDao.select(new HomeListBean());
         list.clear();
         list.addAll(homes);
-        //是否显示
+        //侧滑菜单的显示设置 是否为空/显示数量
         int visibility = list.size() > 0 ? View.GONE : View.VISIBLE;
         mIHomeView.getActivity().setDrawerListSize(visibility, mIHomeView.getListView()
                 .getFirstVisiblePosition() + "/" + mIHomeView

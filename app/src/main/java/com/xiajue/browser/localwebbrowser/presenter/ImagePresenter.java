@@ -18,6 +18,7 @@ import com.xiajue.browser.localwebbrowser.model.Config;
 import com.xiajue.browser.localwebbrowser.model.manager.ImageLoaderManager;
 import com.xiajue.browser.localwebbrowser.model.utils.FileUtils;
 import com.xiajue.browser.localwebbrowser.model.utils.L;
+import com.xiajue.browser.localwebbrowser.view.activity.ImageActivity;
 import com.xiajue.browser.localwebbrowser.view.activity.viewInterface.IImageView;
 
 import java.io.File;
@@ -129,7 +130,7 @@ public class ImagePresenter {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.image_iv:
-                ((Activity) mContext).finish();
+                ((ImageActivity) mContext).animationFinish();
                 break;
         }
     }

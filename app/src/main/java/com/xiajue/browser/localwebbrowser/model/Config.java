@@ -33,12 +33,14 @@ public class Config {
     public static String PICTURE_BING_APK_DOWNLOAD_ADDRESS = "https://github" +
             ".com/xiaJue/PictureBing/raw/master/1.2.apk";
     //picture&bing项目地址
-    public static String PICTURE_BING_PROJECT_GIT_ADDRESS = "https://github" +
-            ".com/xiaJue/PictureBing";
+    public static String PICTURE_BING_PROJECT_GIT_ADDRESS = "https://github.com/xiaJue/PictureBing";
     //支付宝账号
     public static String ZHIFUBAO_NAME = "xiajueya@outlook.com";
     //历史记录的最大记录数
     public static int HISTORY_LIST_MAX_SIZE = 200;
     //模拟的历史记录listView最大显示条目
     public static int HISTORY_ITEM_SHOW_MAX_ITEM = 4;
+    public static String BING_URL = "https://bing.ioliu.cn/";
+    public static String GANKE_URL = "http://gank.io/";
+    public static String WEB_ABOUT_BLANK = "about:blank";
 }

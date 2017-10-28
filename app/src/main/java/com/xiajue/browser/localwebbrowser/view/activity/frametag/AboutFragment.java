@@ -1,6 +1,8 @@
 package com.xiajue.browser.localwebbrowser.view.activity.frametag;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.ClipboardManager;
@@ -21,6 +23,9 @@ public class AboutFragment extends BaseFramtag implements View.OnClickListener {
     private TextView mPBProAddressTv;
     private TextView mPBApkDownloadTv;
     private TextView mDaShangTv;
+    private TextView mGankeTv;
+    private TextView mBingTv;
+    private TextView mVersion;
 
     @Nullable
     @Override
@@ -37,6 +42,9 @@ public class AboutFragment extends BaseFramtag implements View.OnClickListener {
         mPBProAddressTv = (TextView) view.findViewById(R.id.home_about_pd_pro_address);
         mPBApkDownloadTv = (TextView) view.findViewById(R.id.home_about_pd_apk_download);
         mDaShangTv = (TextView) view.findViewById(R.id.home_about_daShang);
+        mGankeTv = (TextView) view.findViewById(R.id.home_about_ganke);
+        mBingTv = (TextView) view.findViewById(R.id.home_about_bing);
+        mVersion = (TextView) view.findViewById(R.id.home_about_version);
     }
 
     private void set() {
@@ -44,6 +52,10 @@ public class AboutFragment extends BaseFramtag implements View.OnClickListener {
         mPBProAddressTv.setOnClickListener(this);
         mPBApkDownloadTv.setOnClickListener(this);
         mDaShangTv.setOnClickListener(this);
+        mGankeTv.setOnClickListener(this);
+        mBingTv.setOnClickListener(this);
+        //获得应用版本号
+        mVersion.setText(getString(R.string.version) + getVersionName(getContext()));
     }
 
     @Override
@@ -70,7 +82,32 @@ public class AboutFragment extends BaseFramtag implements View.OnClickListener {
                 Toast.makeText(getContext(), getString(R.string.copy_success), Toast
                         .LENGTH_SHORT).show();
                 break;
+            case R.id.home_about_ganke:
+                getHomeActivity().getWebView().loadUrl(Config.GANKE_URL);
+                getHomeActivity().getViewPager().setCurrentItem(1);
+                break;
+            case R.id.home_about_bing:
+                getHomeActivity().getWebView().loadUrl(Config.BING_URL);
+                getHomeActivity().getViewPager().setCurrentItem(1);
+                break;
         }
     }
 
+    /**
+     * 获取版本号
+     *
+     * @return 当前应用的版本号
+     */
+    private String getVersionName(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        // getPackageName()是你当前类的包名，0代表是获取版本信息
+        PackageInfo packInfo = null;
+        try {
+            packInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        String version = packInfo.versionName;
+        return version;
+    }
 }

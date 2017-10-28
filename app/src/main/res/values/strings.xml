@@ -10,7 +10,7 @@
     <string name="save_success">保存成功</string>
     <string name="collection">已收藏</string>
     <string name="cancel_collection">已取消收藏</string>
-    <string name="muYou">木有加载啊...</string>
+    <string name="muYou">还没有加载...</string>
     <string name="ok">确定</string>
     <string name="is_remove">是否要移除并扭送到"移除"列表?</string>
     <string name="cancel">取消</string>
@@ -19,7 +19,7 @@
     <string name="delete_failure">删除失败</string>
     <string name="data_loading">使劲加载中...</string>
     <string name="is_add2all_list">是否放回\"所有\"列表?</string>
-    <string name="select_path">Click我选择目录....</string>
+    <string name="select_path">点我选择目录....</string>
     <string name="input_select_content_hint">输入要查找的内容...</string>
     <string name="sheJi_kaiFa"><![CDATA[设计&开发]]></string>
     <string name="OpenSource">
@@ -33,10 +33,15 @@
     universal-image-loader-1.9.5.jar\n
     com.davemorrissey.labs:subsampling-scale-image-view:3.6.0\n
     popupwindowmenu:1.0\n\n
-        首页图片『每日一妹子』来源:\n
-        <html><a href='http://gank.io/'>gank.io</a>干货集中营\n
-        『风景图片』来源:\n
-            <a href='https://bing.ioliu.cn/'>bing.ioliu.cn</a>必应图片</html>
+    </string>
+    <string name="home_image">首页图片</string>
+    <string name="ganhuo">
+        『<html><a href='#'>每日一妹子』</a>来源:\n
+        <a href='http://gank.io/'>gank.io</a></html>干货集中营\n
+    </string>
+    <string name="bing">
+        『<html><a href='#'>风景图片』</a>来源:\n
+            <a href='https://bing.ioliu.cn/'>bing.ioliu.cn</a></html>必应图片
     </string>
     <string name="app_string">本地的网页浏览器。可以方便地浏览手机里缓存的网页。也可浏览/缓存在线网页。</string>
     <string name="meizi_text">每日一妹子</string>
@@ -52,11 +57,11 @@
     <string name="about">关于</string>
     <string name="web">浏览</string>
     <string name="help">使用帮助:</string>
-    <string name="help_add">打开侧滑菜单,点击选择目录,选择你的网页文件目录,如:"Storage/sdcard/QQBrowser/网页保存/" 等待数据加载完成即可。</string>
-    <string name="help_link">如果点击本地网页文件中的网络链接,则需要网络才能打开。</string>
-    <string name="help_tag">如果浏览的网页中有类似左右滑动的组图,可能会与Tag的滑动相冲突,可到设置中关闭Tag的滑动切换即可。</string>
-    <string name="help_item_button">已添加的条目会显示在列表中。条目可以左滑弹出按钮：收藏,删除，移除。移除操作只是从列表中移除条目，可从“移除”列表中找到并恢复。删除操作则从内存设备中永久删除，需要慎重操作。</string>
-    <string name="help_search">条目多时可使用搜索功能通过关键字筛选</string>
+    <string name="help_add">打开侧滑菜单,点击选择目录,选择你的网页文件目录,如:"Storage/sdcard/webFile/" 等待数据加载完成即可。</string>
+    <string name="help_link">如果点击离线网页中的链接或输入地址访问的网站，以及访问项目地址等都需要手机的网络。</string>
+    <string name="help_tag">如果浏览的网页中有需要左右滑动的功能,可能会与软件Tag的滑动冲突,可以到设置中关闭Tag的滑动切换。</string>
+    <string name="help_item_button">如需移除、删除、收藏某些离线网页，在右侧菜单中条目向左滑动可以得到三个按钮。-号为移除，移除的条目可以恢复。删除的条目无法恢复。</string>
+    <string name="help_search">可根据关键字搜索条目。</string>
     <string name="copy_link_address">复制链接地址</string>
     <string name="save_local_web">保存离线网页</string>
     <string name="exit">退出</string>
@@ -70,8 +75,8 @@
     <string name="load_error">访问网站出错</string>
     <string name="load_success_not_title">无标题</string>
     <string name="about_by">本地网页浏览器:LocalWebBrowser</string>
-    <string name="version">版本:1.0</string>
-    <string name="this_project_address">项目地址:『https://github.com/xiaJue/LocalBrowser』</string>
+    <string name="version">版本:</string>
+    <string name="this_project_address">项目地址:『<html><a href='#'>https://github.com/xiaJue/LocalBrowser</a></html>』</string>
     <string name="web_error_by">无法访问此网站</string>
     <string name="web_error_text">该网站拒绝我们连接或网络连接超时</string>
     <string name="settings_start">启动时:</string>
@@ -96,12 +101,18 @@
     <string name="delete">删除</string>
     <string name="headerTitle">操作</string>
     <string name="picture_bing"><![CDATA[Picture&Bing]]></string>
-    <string name="pb_project_address">项目地址:『github.com/xiaJue/PictureBing』</string>
-    <string name="download">APK『下载』</string>
-    <string name="pb_by">每天更新一张清晰风景图片。</string>
+    <string name="pb_project_address">项目地址:『<html><a href='#'>github.com/xiaJue/PictureBing</a></html>』</string>
+    <string name="download">APK『<html><a href='#'>下载</a></html>』</string>
+    <string name="pb_by">项目推荐:每天更新一张清晰风景图片。『首页必应图片』</string>
     <string name="not_contents">还没有内容...</string>
-    <string name="daShang">该软件完全开源。如果它对你有帮助，可以分享给你的朋友。也可以请我吃包辣条。点击复制我的『支付宝』</string>
+    <string name="daShang">完全开源的软件。如果对你有帮助，可以分享给你的朋友。也可以请我喝杯奶茶。点击复制我的『<html><a href='#'>支付宝</a></html>』</string>
     <string name="download_success">下载成功</string>
     <string name="download_failure">下载失败</string>
-    <string name="start_download">开始下载...</string>
+    <string name="start_download">正在下载...</string>
+    <string name="cant_download">无法下载该文件</string>
+    <string name="check_update">检查更新</string>
+    <string name="internet_error_dialog_title">玩坏了~没有网络</string>
+    <string name="to_set_net">设置</string>
+    <string name="load_meizi_image_error">加载\"妹子\"图片失败</string>
+    <string name="load_bing_image_error">加载\"必应\"图片失败</string>
 </resources>

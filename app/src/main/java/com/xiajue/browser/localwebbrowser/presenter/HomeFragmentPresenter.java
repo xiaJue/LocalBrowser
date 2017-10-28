@@ -17,7 +17,6 @@ import com.xiajue.browser.localwebbrowser.R;
 import com.xiajue.browser.localwebbrowser.model.bean.BingBean;
 import com.xiajue.browser.localwebbrowser.model.bean.BingBeanList;
 import com.xiajue.browser.localwebbrowser.model.bean.HistoryBean;
-import com.xiajue.browser.localwebbrowser.model.bean.MeiziBean;
 import com.xiajue.browser.localwebbrowser.model.bean.MeiziBeanList;
 import com.xiajue.browser.localwebbrowser.model.database.DatabaseDao;
 import com.xiajue.browser.localwebbrowser.model.internet.RetrofitUtils;
@@ -76,109 +75,34 @@ public class HomeFragmentPresenter {
                 .getContext());
     }
 
-    private boolean isNotInternet;
+    private boolean isNotInternet;//是否没有网络
 
+    /**
+     * 加载图片
+     */
     public void setImageUrl() {
-        /**
-         * loading meizi ...
-         */
+        //loading meizi ...
         mRetrofitUtils.getMeiziBean(new Callback() {
-            private void getUrlToLoad() {
-                onLoadResponse(mMeiziUrl, "meiziUrl", mHomeFragment.mMeiziIv, new
-                        SimpleImageLoadingListener() {
-                            @Override
-                            public void onLoadingFailed(String imageUri, View view, FailReason
-                                    failReason) {
-                                super.onLoadingFailed(imageUri, view, failReason);
-                                mHomeFragment.mRefreshLayout.setRefreshing(false);
-                                Toast.makeText(mHomeFragment.getContext(), "加载\"妹子\"图片失败", Toast
-                                        .LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onLoadingComplete(String imageUri, View view, Bitmap
-                                    loadedImage) {
-                                super.onLoadingComplete(imageUri, view, loadedImage);
-                                //set imageView and size
-                                int height = loadedImage.getHeight();
-                                int imgHeight = mHomeFragment.mMeiziRl.getLayoutParams()
-                                        .height;
-                                int imgWidth = (int) (loadedImage.getWidth() * ((float)
-                                        imgHeight) / height);
-                                //防止图片宽度过大
-                                int maxWidth = ScreenUtils.getScreenWidth(mHomeFragment
-                                        .getContext()) / 7 * 4;//七分之四
-                                if (imgWidth > maxWidth) {
-                                    imgWidth = maxWidth;
-                                }
-                                mHomeFragment.mMeiziIv.getLayoutParams().width = imgWidth;
-                                mHomeFragment.mMeiziIv.getLayoutParams().height = imgHeight;
-                                mHomeFragment.mMeiziRl.getLayoutParams().width = imgWidth;
-                                mHomeFragment.mMeiziIv.setImageBitmap(loadedImage);
-                                //设置侧滑菜单背景
-                                mHomeFragment.getHomeActivity().getActivity().setDrawerBackground
-                                        (loadedImage);
-                                //显示图片渐变动画
-                                FadeInBitmapDisplayer.animate(mHomeFragment.mMeiziIv, 800);
-                                mMeiziLoadFlag = true;
-                                if (mMeiziLoadFlag && mBingLoadFlag) {
-                                    mHomeFragment.mRefreshLayout.setRefreshing(false);
-                                }
-                            }
-                        });
-            }
-
             @Override
             public void onResponse(Call call, Response response) {
-                List<MeiziBean> results = ((MeiziBeanList) response.body()).getResults();
-                MeiziBean meiziBean = results.get(0);
-                mMeiziUrl = meiziBean.getUrl();
+                mMeiziUrl = ((MeiziBeanList) response.body()).getResults().get(0).getUrl();
                 isNotInternet = false;
-                getUrlToLoad();
-                mHomeFragment.mMeiziTv.setText(mHomeFragment.getString(R.string.meizi_text));
+                getUrlAndLoad(mMeiziUrl, "meiziUrl", mHomeFragment.mMeiziIv, mHomeFragment.getString
+                        (R.string.load_meizi_image_error));
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
                 isNotInternet = true;
-                getUrlToLoad();
+                getUrlAndLoad(mMeiziUrl, "meiziUrl", mHomeFragment.mMeiziIv, mHomeFragment
+                        .getString(R.string.load_meizi_image_error));
                 mMeiziLoadFailureFlag = true;
-                if (mMeiziLoadFailureFlag && mBingLoadFailureFlag) {
-                    Toast.makeText(mHomeFragment.getContext(), "连接网络失败", Toast.LENGTH_SHORT).show();
-                }
+                showNetError();
                 mHomeFragment.mRefreshLayout.setRefreshing(false);
             }
         });
-        /**
-         * loading bing...
-         */
+        //loading bing...
         mRetrofitUtils.getBingBean(new Callback() {
-            private void getUrlToLoad() {
-                onLoadResponse(mBingUrl, "bingUrl", mHomeFragment.mBingIv, new
-                        SimpleImageLoadingListener() {
-                            @Override
-                            public void onLoadingFailed(String imageUri, View view, FailReason
-                                    failReason) {
-                                super.onLoadingFailed(imageUri, view, failReason);
-                                mHomeFragment.mRefreshLayout.setRefreshing(false);
-                                Toast.makeText(mHomeFragment.getContext(), "加载\"必应\"图片失败", Toast
-                                        .LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onLoadingComplete(String imageUri, View view, Bitmap
-                                    loadedImage) {
-                                super.onLoadingComplete(imageUri, view, loadedImage);
-                                mHomeFragment.mBingIv.setImageBitmap(loadedImage);
-                                FadeInBitmapDisplayer.animate(mHomeFragment.mBingIv, 800);
-                                mBingLoadFlag = true;
-                                if (mMeiziLoadFlag && mBingLoadFlag) {
-                                    mHomeFragment.mRefreshLayout.setRefreshing(false);
-                                }
-                            }
-                        });
-            }
-
             @Override
             public void onResponse(Call call, Response response) {
                 List<BingBean> images = ((BingBeanList) response.body()).getImages();
@@ -186,28 +110,105 @@ public class HomeFragmentPresenter {
                 mBingUrl = bingBean.getAbsUrl();
                 mBingTitle = bingBean.getCopyright();
                 isNotInternet = false;
-                getUrlToLoad();
+                getUrlAndLoad(mBingUrl, "bingUrl", mHomeFragment.mBingIv, mHomeFragment
+                        .getString(R.string.load_bing_image_error));
                 mHomeFragment.mBingTv.setText(bingBean.getCopyright() + bingBean.getEnddate());
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
                 isNotInternet = true;
-                getUrlToLoad();
                 mBingLoadFailureFlag = true;
-                if (mMeiziLoadFailureFlag && mBingLoadFailureFlag) {
-                    Toast.makeText(mHomeFragment.getContext(), "连接网络失败", Toast.LENGTH_SHORT).show();
-                }
+                getUrlAndLoad(mBingUrl, "bingUrl", mHomeFragment.mBingIv, mHomeFragment.getString
+                        (R.string.load_bing_image_error));
+                showNetError();
                 mHomeFragment.mRefreshLayout.setRefreshing(false);
             }
         });
     }
 
+    /**
+     * 显示网络出错
+     */
+    private void showNetError() {
+        if (mMeiziLoadFailureFlag && mBingLoadFailureFlag) {
+            Toast.makeText(mHomeFragment.getContext(), mHomeFragment.getString(R.string
+                    .internet_error_dialog_title), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * 抽取相似代码以复用
+     *
+     * @param key       url存储于SharedPreferences 中的key
+     * @param imageView 对应的imageView
+     */
+    private void getUrlAndLoad(String url, String key, final ImageView imageView, final String
+            errorToast) {
+        final boolean isLoadMeizi = key.contains("meizi");
+        onLoadResponse(url, key, imageView, new
+                SimpleImageLoadingListener() {
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason
+                            failReason) {
+                        super.onLoadingFailed(imageUri, view, failReason);
+                        mHomeFragment.mRefreshLayout.setRefreshing(false);
+                        Toast.makeText(mHomeFragment.getContext(), errorToast, Toast
+                                .LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap
+                            loadedImage) {
+                        super.onLoadingComplete(imageUri, view, loadedImage);
+                        if (isLoadMeizi) {
+                            //set imageView and size
+                            int height = loadedImage.getHeight();
+                            int imgHeight = mHomeFragment.mMeiziRl.getLayoutParams()
+                                    .height;
+                            int imgWidth = (int) (loadedImage.getWidth() * ((float)
+                                    imgHeight) / height);
+                            //防止图片宽度过大
+                            int maxWidth = ScreenUtils.getScreenWidth(mHomeFragment
+                                    .getContext()) / 7 * 4;//七分之四
+                            if (imgWidth > maxWidth) {
+                                imgWidth = maxWidth;
+                            }
+                            imageView.getLayoutParams().width = imgWidth;
+                            imageView.getLayoutParams().height = imgHeight;
+                            mHomeFragment.mMeiziRl.getLayoutParams().width = imgWidth;
+                            //设置侧滑菜单背景
+                            mHomeFragment.getHomeActivity().getActivity().setDrawerBackground
+                                    (loadedImage);
+                            //设置文字
+                            mHomeFragment.mMeiziTv.setText(mHomeFragment.getString(R.string
+                                    .meizi_text));
+                            mMeiziLoadFlag = true;
+                        } else {
+                            mBingLoadFlag = true;
+                        }
+                        imageView.setImageBitmap(loadedImage);
+                        //显示图片渐变动画
+                        FadeInBitmapDisplayer.animate(imageView, 800);
+                        if (mMeiziLoadFlag && mBingLoadFlag) {
+                            mHomeFragment.mRefreshLayout.setRefreshing(false);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 抽取相似代码以复用
+     *
+     * @param url          图片url
+     * @param key          url存储于SharedPreferences 中的key
+     * @param imageView    对应的imageView
+     * @param loadListener 加载图片的回调
+     */
     private void onLoadResponse(String url, String key, ImageView imageView,
                                 ImageLoadingListener loadListener) {
         String keyUrl = SPUtils.getInstance(mHomeFragment.getContext()).getString
                 (key);
-
         if (!isNotInternet) {
             if (!url.equals(keyUrl) && keyUrl.length() > 0) {
                 //删除之前的缓存
@@ -241,6 +242,8 @@ public class HomeFragmentPresenter {
                 intent.putExtra("image_url", mBingUrl);
                 intent.putExtra("type", mBingTitle);
                 mHomeFragment.startActivity(intent);
+                mHomeFragment.getActivity().overridePendingTransition(R.anim.activity_enter_anim,
+                        R.anim.activity_exit_anim);
                 break;
             case R.id.home_home_meizi_rl:
                 //打开图片
@@ -251,6 +254,9 @@ public class HomeFragmentPresenter {
                 intent.putExtra("image_url", mMeiziUrl);
                 intent.putExtra("type", mHomeFragment.getString(R.string.meizi_text));
                 mHomeFragment.startActivity(intent);
+                mHomeFragment.getActivity().overridePendingTransition(R.anim.activity_enter_anim,
+                        R.anim.activity_exit_anim);
+
                 break;
             case R.id.home_home_settings:
                 //打开settings界面

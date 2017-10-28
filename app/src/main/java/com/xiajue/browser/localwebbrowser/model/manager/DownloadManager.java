@@ -20,45 +20,54 @@ public class DownloadManager {
     /**
      * 下载文件
      */
-    public static void download(final String savePath,final String url, final DownloadCallback callback) {
-        Request request = new Request.Builder().url(url).build();
-        Call call = client.newCall(request);
-        call.enqueue(new Callback() {
+    public static void download(final String savePath, final String url, final DownloadCallback
+            callback) {
+        new Thread(new Runnable() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                callback.failure();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) {
+            public void run() {
                 try {
-                    InputStream is = response.body().byteStream();
-                    FileOutputStream fileOut = null;
-                    File file = new File(savePath);
-                    fileOut = new FileOutputStream(file);
-                    byte[] buf = new byte[1024 * 8];
-                    int read;
-                    while ((read = is.read(buf)) != -1) {
-                        fileOut.write(buf, 0, read);
-                    }
-                    fileOut.flush();
-                    fileOut.close();
-                    is.close();
-                    callback.success(file);
+                    Request request = new Request.Builder().url(url).build();
+                    Call call = client.newCall(request);
+                    call.enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            callback.failure();
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) {
+                            try {
+                                InputStream is = response.body().byteStream();
+                                FileOutputStream fileOut = null;
+                                File file = new File(savePath);
+                                fileOut = new FileOutputStream(file);
+                                byte[] buf = new byte[1024 * 8];
+                                int read;
+                                while ((read = is.read(buf)) != -1) {
+                                    fileOut.write(buf, 0, read);
+                                }
+                                fileOut.flush();
+                                fileOut.close();
+                                is.close();
+                                callback.success(file);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                callback.failure();
+                            }
+                        }
+                    });
                 } catch (Exception e) {
-                    e.printStackTrace();
                     callback.failure();
                 }
             }
-        });
-
+        }).start();
     }
 
     /**
      * 获得文件名
      */
     public static String getFileName(String url) {
-        String name=new File(url).getName();
+        String name = new File(url).getName();
         return name;
     }
 

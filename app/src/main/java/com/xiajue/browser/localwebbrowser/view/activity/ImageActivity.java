@@ -71,6 +71,16 @@ public class ImageActivity extends BaseActivity implements IImageView, View.OnCl
         }
     }
 
+    public void animationFinish() {
+        finish();
+        overridePendingTransition(R.anim.activity_enter_anim, R.anim.activity_exit_anim);
+    }
+
+    @Override
+    public void onBackPressed() {
+        animationFinish();
+    }
+
     @Override
     public Toolbar getToolbar() {
         return mToolbar;

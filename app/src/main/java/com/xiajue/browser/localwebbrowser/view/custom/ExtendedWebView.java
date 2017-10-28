@@ -2,9 +2,11 @@ package com.xiajue.browser.localwebbrowser.view.custom;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
+import com.xiajue.browser.localwebbrowser.model.Config;
 
 /**
  * xiaJue 2017/9/20创建
@@ -58,5 +60,15 @@ public class ExtendedWebView extends WebView {
     public void closeLoad() {
         loadUrl("");
         clearHistory();
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (getUrl() != null) {
+            if (getUrl().equals(Config.WEB_ABOUT_BLANK)) {
+                return true;
+            }
+        }
+        return super.onInterceptTouchEvent(ev);
     }
 }

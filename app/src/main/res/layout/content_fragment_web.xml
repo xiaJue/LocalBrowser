@@ -1,34 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/listview_bg_color"
     android:orientation="vertical">
 
-    <ProgressBar
-        android:id="@+id/home_progressBar"
-        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:max="100"
-        android:progressDrawable="@drawable/progressbar"
-        android:visibility="gone"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <!--<android.support.v4.widget.SwipeRefreshLayout-->
-    <!--android:id="@+id/home_refreshLayout"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent">-->
+        <ProgressBar
+            android:id="@+id/home_progressBar"
+            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:max="100"
+            android:progressDrawable="@drawable/progressbar"
+            android:visibility="gone"/>
+
+
+        <com.xiajue.browser.localwebbrowser.view.custom.ExtendedWebView
+            android:id="@+id/home_webView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:overScrollMode="never">
+
+        </com.xiajue.browser.localwebbrowser.view.custom.ExtendedWebView>
+    </LinearLayout>
 
     <include layout="@layout/content_fragment_web_error"/>
 
-    <com.xiajue.browser.localwebbrowser.view.custom.ExtendedWebView
-        android:id="@+id/home_webView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:overScrollMode="never">
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/home_web_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="10dp"
+        android:visibility="gone"
+        app:srcCompat="@mipmap/back"/>
 
-    </com.xiajue.browser.localwebbrowser.view.custom.ExtendedWebView>
-    <!--</android.support.v4.widget.SwipeRefreshLayout>-->
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
