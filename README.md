@@ -7,7 +7,7 @@ LocalBrowser
 <br>
 本着开发练手打怪升级的理念于是就写了这款软件。它的作用就是把一堆网页文件汇集起来方便打开(吧)
 <br>
-## Version 1.0
+### Version 1.0
 <br>
 
 *****
@@ -15,10 +15,12 @@ LocalBrowser
 <br>
 apk 下载<a href='https://github.com/xiaJue/LocalBrowser/raw/master/app.apk'>download</a>
 <br>
-## 第三方开源库以及部分数据来源:
+
+### 第三方开源库以及部分数据来源:
+
 <br>
 * tbs_sdk_thirdapp.jar(腾讯X5内核)
-* ru.bartwell:exfilepicker:2.1
+* ru.bartwell:exfilepicker:2.1(文件选择)
 * com.android.support:design:25.2.0
 * com.daimajia.swipelayout:library:1.2.0@aar(listView滑出菜单)
 * org.greenrobot:greendao:3.2.2(数据库)
@@ -28,10 +30,12 @@ apk 下载<a href='https://github.com/xiaJue/LocalBrowser/raw/master/app.apk'>do
 * com.davemorrissey.labs:subsampling-scale-image-view:3.6.0(大图显示)
 * popupwindowmenu:1.0
 <br>
-#### 首页图片：
+
+##### 首页图片：
+
 <br>
 
-『<a href='#'>每日一妹子』</a>来源:<br>
+『<a href='#'>每日妹子』</a>来源:<br>
         <a href='http://gank.io/'>gank.io</a>干货集中营
         <br>
         
@@ -40,7 +44,11 @@ apk 下载<a href='https://github.com/xiaJue/LocalBrowser/raw/master/app.apk'>do
             必应图片
             <br>
 <br>
-## 维护更新：有时间的话...
+
+### 维护更新：
+
+<>br
+有空的话
 <br>
 
 *****
