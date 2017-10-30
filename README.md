@@ -8,11 +8,12 @@
 <br>
 ## Version 1.0
 <br>
-*************
+*****
 <br>
 apk 下载<a href='https://github.com/xiaJue/LocalBrowser/raw/master/app.apk'>download</a>
 <br>
-# 第三方开源库以及部分数据来源:
+第三方开源库以及部分数据来源:
+-------
 <br>
 * tbs_sdk_thirdapp.jar(腾讯X5内核)
 * ru.bartwell:exfilepicker:2.1
@@ -25,7 +26,8 @@ apk 下载<a href='https://github.com/xiaJue/LocalBrowser/raw/master/app.apk'>do
 * com.davemorrissey.labs:subsampling-scale-image-view:3.6.0(大图显示)
 * popupwindowmenu:1.0
 <br>
-## 首页图片：
+首页图片：
+-------
 <br>
 
 『<a href='#'>每日一妹子』</a>来源:<br>
@@ -37,7 +39,8 @@ apk 下载<a href='https://github.com/xiaJue/LocalBrowser/raw/master/app.apk'>do
             必应图片
             <br>
 <br>
-# 维护更新：有时间的话...
+维护更新：有时间的话...
+-------
 <br>
-**************
+*****
 
