@@ -80,8 +80,6 @@ public class WebFragment extends BaseFramtag {
             public void onClick(View v) {
                 if (mWebView.canGoBack()) {
                     goBack();
-                } else {
-                    closeLoad();//关闭网页
                 }
             }
         });
@@ -137,6 +135,7 @@ public class WebFragment extends BaseFramtag {
                 mProgressBar.setProgress(i);
                 if (i == 100) {
                     mProgressBar.setVisibility(View.GONE);
+                    //更新回退按钮状态
                     if (mWebView.canGoBack()) {
                         mFAB.setVisibility(View.VISIBLE);
                         mFAB.setImageResource(R.mipmap.back);
@@ -240,6 +239,7 @@ public class WebFragment extends BaseFramtag {
     public void closeLoad() {
         HomeEventManager.getInstance().setToolbarTitle(getString(R.string.web));
         mWebView.closeLoad();
+        mFAB.setVisibility(View.GONE);
         isSetTitle = false;
         new Thread() {
             @Override

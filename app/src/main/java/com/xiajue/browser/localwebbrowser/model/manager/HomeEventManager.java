@@ -133,11 +133,12 @@ public class HomeEventManager {
                 mContext.getString(R.string.delete_failure), Toast
                 .LENGTH_SHORT)
                 .show();//显示土司
-        if (delete) {
-            mDatabaseDao.delete(bean);// 从home数据表删除
-            mDatabaseDao.delete(bean, DatabaseDao.DATA_COLLECTION);// 从收藏数据表删除
-            mDatabaseDao.delete(bean, DatabaseDao.DATA_REMOVE);//从移除数据表删除
-        }
+//        if (delete) {
+        //无论删除成功与否都从数据库删除数据
+        mDatabaseDao.delete(bean);// 从home数据表删除
+        mDatabaseDao.delete(bean, DatabaseDao.DATA_COLLECTION);// 从收藏数据表删除
+        mDatabaseDao.delete(bean, DatabaseDao.DATA_REMOVE);//从移除数据表删除
+//        }
     }
 
     /**
@@ -178,8 +179,9 @@ public class HomeEventManager {
      * 设置toolbar的标题
      */
     public void setToolbarTitle(String title, boolean... donSet) {
+        //如果设置了第二个参数,则不执行条件语句
         if (donSet.length <= 0) {
-            if (mIHomeView.getWebView() != null) {
+            if (mIHomeView.getWebView() != null && mIHomeView.getWebView().getUrl() != null) {
                 String url = mIHomeView.getWebView().getUrl().trim();
                 if (url.isEmpty() || url.contains(Config.WEB_ABOUT_BLANK) || title.contains(Config
                         .WEB_ABOUT_BLANK)) {
@@ -262,30 +264,40 @@ public class HomeEventManager {
             return;
         }
         //获得保存位置
-        String fileName = Settings.getFileSavePath(mContext,
-                mIHomeView.getWebView().getTitle(), ".mht");
-        if (!new File(fileName).exists()) {
-            try {
-                //保存离线网页
-                mIHomeView.getWebView().saveWebArchive(fileName);
-                Toast.makeText(mContext, R.string.save_local_web_success, Toast
-                        .LENGTH_SHORT).show();
-                // 添加到侧滑菜单listView中
-                HomeListBean bean = new HomeListBean(new File(fileName).getName(), fileName,
-                        SystemClock.currentThreadTimeMillis(), false, false);
-                //添加到菜单列表
-                addToDrawerLayoutList(bean, true);
-
-                mIHomeView.getAdapter().notifyDataSetChanged();
-            } catch (Resources.NotFoundException e) {
-                Toast.makeText(mContext, R.string.save_local_web_failure, Toast
-                        .LENGTH_SHORT)
-                        .show();
-            }
-        } else {
-            Toast.makeText(mContext, R.string.save_local_web_exist, Toast.LENGTH_SHORT)
-                    .show();
-        }
+       new Thread(new Runnable() {
+           @Override
+           public void run() {
+               String fileName = Settings.getFileSavePath(mContext,
+                       mIHomeView.getWebView().getTitle(), ".mht");
+               if (!new File(fileName).exists()) {
+                   try {
+                       //保存离线网页
+                       mIHomeView.getWebView().saveWebArchive(fileName);
+                       if (new File(fileName).exists()) {
+                           Toast.makeText(mContext, R.string.save_local_web_success, Toast
+                                   .LENGTH_SHORT).show();
+                           // 添加到侧滑菜单listView中
+                           HomeListBean bean = new HomeListBean(new File(fileName).getName(), fileName,
+                                   SystemClock.currentThreadTimeMillis(), false, false);
+                           //添加到菜单列表
+                           addToDrawerLayoutList(bean, true);
+                           mIHomeView.getAdapter().notifyDataSetChanged();
+                       }else{
+                           Toast.makeText(mContext, R.string.save_local_web_failure, Toast
+                                   .LENGTH_SHORT)
+                                   .show();
+                       }
+                   } catch (Resources.NotFoundException e) {
+                       Toast.makeText(mContext, R.string.save_local_web_failure, Toast
+                               .LENGTH_SHORT)
+                               .show();
+                   }
+               } else {
+                   Toast.makeText(mContext, R.string.save_local_web_exist, Toast.LENGTH_SHORT)
+                           .show();
+               }
+           }
+       });
     }
 
     /**

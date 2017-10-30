@@ -43,7 +43,7 @@
         『<html><a href='#'>风景图片』</a>来源:\n
             <a href='https://bing.ioliu.cn/'>bing.ioliu.cn</a></html>必应图片
     </string>
-    <string name="app_string">本地的网页浏览器。可以方便地浏览手机里缓存的网页。也可浏览/缓存在线网页。</string>
+    <string name="app_string">本地的网页浏览器。可以方便地浏览手机里缓存的网页。也可浏览/缓存在线网页。\n\n该软件开发的初衷是因为作者有次在手机中保存了很多离线网页,但是每次从文件管理中打开比较麻烦,本着开发练手打怪升级的理念于是就写了这款软件。它的作用就是把一堆网页文件汇集起来方便打开(吧)</string>
     <string name="meizi_text">每日一妹子</string>
     <string name="save">保存</string>
     <string name="share">分享</string>
@@ -62,6 +62,7 @@
     <string name="help_tag">如果浏览的网页中有需要左右滑动的功能,可能会与软件Tag的滑动冲突,可以到设置中关闭Tag的滑动切换。</string>
     <string name="help_item_button">如需移除、删除、收藏某些离线网页，在右侧菜单中条目向左滑动可以得到三个按钮。-号为移除，移除的条目可以恢复。删除的条目无法恢复。</string>
     <string name="help_search">可根据关键字搜索条目。</string>
+    <string name="help_bug">该软件设计、开发、测试均由作者完成。难免会存在一些隐藏潜在的BUG。如果使用过程中遇到影响正常使用的BUG,可以通过邮箱告诉我。邮箱就是我的支付宝账号。</string>
     <string name="copy_link_address">复制链接地址</string>
     <string name="save_local_web">保存离线网页</string>
     <string name="exit">退出</string>
@@ -105,7 +106,7 @@
     <string name="download">APK『<html><a href='#'>下载</a></html>』</string>
     <string name="pb_by">项目推荐:每天更新一张清晰风景图片。『首页必应图片』</string>
     <string name="not_contents">还没有内容...</string>
-    <string name="daShang">完全开源的软件。如果对你有帮助，可以分享给你的朋友。也可以请我喝杯奶茶。点击复制我的『<html><a href='#'>支付宝</a></html>』</string>
+    <string name="daShang">完全开源的软件。如果对你有帮助，可以分享出去。可以请我喝杯奶茶。点击这里复制我的『<html><a href='#'>支付宝</a></html>』</string>
     <string name="download_success">下载成功</string>
     <string name="download_failure">下载失败</string>
     <string name="start_download">正在下载...</string>

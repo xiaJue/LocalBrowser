@@ -3,6 +3,7 @@ package com.xiajue.browser.localwebbrowser.view.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -47,8 +48,6 @@ import com.xiajue.popupmenu.popupWindowMenu.PopWinMenu;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.security.AccessController.getContext;
 
 public class HomeActivity extends BaseActivity implements IHomeView, View.OnClickListener,
         PopWinMenu.OnItemSelectListener {
@@ -122,6 +121,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
     }
 
     private void set() {
+        getWindow().setFormat(PixelFormat.TRANSLUCENT);
         //set toolbar
         setToolbar();
         //set drawerLayout

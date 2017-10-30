@@ -80,6 +80,13 @@
                 android:textColor="#88000000"
                 android:textSize="13sp"/>
 
+            <TextView
+                style="@style/about_text_style"
+                android:layout_marginBottom="10dp"
+                android:text="@string/help_bug"
+                android:textColor="#88000000"
+                android:textSize="13sp"/>
+
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
