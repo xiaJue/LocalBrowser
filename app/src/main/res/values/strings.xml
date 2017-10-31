@@ -36,7 +36,7 @@
     </string>
     <string name="home_image">首页图片</string>
     <string name="ganhuo">
-        『<html><a href='#'>每日一妹子』</a>来源:\n
+        『<html><a href='#'>每日妹子』</a>来源:\n
         <a href='http://gank.io/'>gank.io</a></html>干货集中营\n
     </string>
     <string name="bing">
@@ -44,7 +44,7 @@
             <a href='https://bing.ioliu.cn/'>bing.ioliu.cn</a></html>必应图片
     </string>
     <string name="app_string">本地的网页浏览器。可以方便地浏览手机里缓存的网页。也可浏览/缓存在线网页。\n\n该软件开发的初衷是因为作者有次在手机中保存了很多离线网页,但是每次从文件管理中打开比较麻烦,本着开发练手打怪升级的理念于是就写了这款软件。它的作用就是把一堆网页文件汇集起来方便打开(吧)</string>
-    <string name="meizi_text">每日一妹子</string>
+    <string name="meizi_text">每日妹子</string>
     <string name="save">保存</string>
     <string name="share">分享</string>
     <string name="share_how">分享到哪里...</string>
@@ -68,7 +68,7 @@
     <string name="exit">退出</string>
     <string name="copy_success">复制成功</string>
     <string name="save_local_web_success">保存离线网页成功</string>
-    <string name="save_local_web_exist">已经保存过了啦</string>
+    <string name="save_local_web_exist">同名文件已存在，可能已经保存过了啦</string>
     <string name="save_local_web_failure">网页保存失败</string>
     <string name="address_error">地址错误呢</string>
     <string name="xiajue_name">夏觉</string>
@@ -116,4 +116,5 @@
     <string name="to_set_net">设置</string>
     <string name="load_meizi_image_error">加载\"妹子\"图片失败</string>
     <string name="load_bing_image_error">加载\"必应\"图片失败</string>
+    <string name="file_not_exist">文件貌似不存在。可能已经删除或保存失败了。是否删除该条目?</string>
 </resources>

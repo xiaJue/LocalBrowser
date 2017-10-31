@@ -75,6 +75,9 @@ public class Settings {
         if (!file.exists()) {
             file.mkdir();//创建目录
         }
+        if (name.isEmpty() && end.isEmpty()) {
+            return path;
+        }
         return path + File.separator + name + end;
     }
 
@@ -91,6 +94,9 @@ public class Settings {
         File file = new File(path);
         if (!file.exists()) {
             file.mkdir();//创建目录
+        }
+        if (name.isEmpty() && end.isEmpty()) {
+            return path;
         }
         return path + File.separator + name + end;
     }

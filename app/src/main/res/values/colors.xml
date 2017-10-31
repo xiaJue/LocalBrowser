@@ -3,6 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#47B5FF</color>
+    <color name="tagColor">#60C842</color>
     <color name="toolbar_color">#3C3F41</color>
     <color name="toolbarTextColor">#ffffff</color>
     <color name="popupMenuTextColor">#696969</color>

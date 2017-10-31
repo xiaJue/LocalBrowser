@@ -2,6 +2,7 @@ package com.xiajue.browser.localwebbrowser.model.manager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.SystemClock;
 import android.text.ClipboardManager;
@@ -23,6 +24,8 @@ import java.io.File;
  * Created by Moing_Admin on 2017/10/23.
  * <p>
  * HomeActivity中的一些事件触发的操作
+ * 此类仅为了把一些需要经常修改的操作集中起来，方便修改，扩展以及查找BUG。
+ * 单例模式纯粹为省事
  */
 
 public class HomeEventManager {
@@ -57,9 +60,9 @@ public class HomeEventManager {
     /**
      * 当条目点击
      */
-    public void selectItem(int position) {
+    public void selectItem(final int position) {
         mIHomeView.getAdapter().closeAllItems();
-        HomeListBean bean = mIHomeView.getList().get(position);
+        final HomeListBean bean = mIHomeView.getList().get(position);
         //可以过滤一些不希望打开的类型:TYPES
         for (int i = 0; i < TYPES.length; i++) {
             String name = bean.getName().toLowerCase();
@@ -77,6 +80,23 @@ public class HomeEventManager {
             }
         }
         //打开时
+        //如果文件不存在、提示:
+        if (!new File(bean.getAbsPath()).exists()) {
+            DialogManager.showInquiry(mContext, mContext.getString(R.string.file_not_exist),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mDatabaseDao.delete(bean);// 从home数据表删除
+                            mDatabaseDao.delete(bean, DatabaseDao.DATA_COLLECTION);// 从收藏数据表删除
+                            mDatabaseDao.delete(bean, DatabaseDao.DATA_REMOVE);//从移除数据表删除
+                            mIHomeView.getList().remove(position);
+                            mIHomeView.getAdapter().notifyDataSetChanged();
+                        }
+                    });
+//            Toast.makeText(mContext, , Toast.LENGTH_SHORT).show();
+            return;
+        }
+        //正常打开
         mIHomeView.getWebView().loadUrl("file://" + bean.getAbsPath());
         L.e(mIHomeView.getList().get(position).getAbsPath());
         mIHomeView.getDrawerLayout().closeDrawer(Gravity.START);
@@ -165,6 +185,7 @@ public class HomeEventManager {
      * @param toDatabase 是否存入数据库
      */
     public void addToDrawerLayoutList(HomeListBean bean, boolean toDatabase) {
+        mIHomeView.getActivity().setDrawerIsNull(View.GONE);
         //add to listView
         if (!bean.isRemove) {
             mIHomeView.getList().add(bean);
@@ -204,7 +225,8 @@ public class HomeEventManager {
             return;
         }
         String url = mIHomeView.getWebView().getUrl();
-        if (url == null || url.isEmpty()) {
+        if (url == null || url.isEmpty() || url.contains(Config
+                .WEB_ABOUT_BLANK)) {
             Toast.makeText(mContext, R.string.muYou, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -238,11 +260,8 @@ public class HomeEventManager {
             return;
         }
         String url = mIHomeView.getWebView().getUrl();
-        if (url == null || url.isEmpty()) {
+        if (url == null || url.isEmpty() || url.contains(Config.WEB_ABOUT_BLANK)) {
             Toast.makeText(mContext, R.string.muYou, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (url.contains(Config.WEB_ABOUT_BLANK)) {
             return;
         }
         OpenFileUtils.openLinkFromBrowser(((Activity) mContext), url);
@@ -256,48 +275,39 @@ public class HomeEventManager {
             return;
         }
         String url = mIHomeView.getWebView().getUrl();
-        if (url == null || url.isEmpty()) {
+        if (url == null || url.isEmpty() || url.contains(Config
+                .WEB_ABOUT_BLANK)) {
             Toast.makeText(mContext, R.string.muYou, Toast.LENGTH_SHORT).show();
             return;
         }
-        if (mIHomeView.getWebView().getUrl().contains(Config.WEB_ABOUT_BLANK)) {
-            return;
-        }
         //获得保存位置
-       new Thread(new Runnable() {
-           @Override
-           public void run() {
-               String fileName = Settings.getFileSavePath(mContext,
-                       mIHomeView.getWebView().getTitle(), ".mht");
-               if (!new File(fileName).exists()) {
-                   try {
-                       //保存离线网页
-                       mIHomeView.getWebView().saveWebArchive(fileName);
-                       if (new File(fileName).exists()) {
-                           Toast.makeText(mContext, R.string.save_local_web_success, Toast
-                                   .LENGTH_SHORT).show();
-                           // 添加到侧滑菜单listView中
-                           HomeListBean bean = new HomeListBean(new File(fileName).getName(), fileName,
-                                   SystemClock.currentThreadTimeMillis(), false, false);
-                           //添加到菜单列表
-                           addToDrawerLayoutList(bean, true);
-                           mIHomeView.getAdapter().notifyDataSetChanged();
-                       }else{
-                           Toast.makeText(mContext, R.string.save_local_web_failure, Toast
-                                   .LENGTH_SHORT)
-                                   .show();
-                       }
-                   } catch (Resources.NotFoundException e) {
-                       Toast.makeText(mContext, R.string.save_local_web_failure, Toast
-                               .LENGTH_SHORT)
-                               .show();
-                   }
-               } else {
-                   Toast.makeText(mContext, R.string.save_local_web_exist, Toast.LENGTH_SHORT)
-                           .show();
-               }
-           }
-       });
+        String fileName = Settings.getFileSavePath(mContext,
+                mIHomeView.getWebView().getTitle(), ".mht");
+        if (!new File(fileName).exists()) {
+            try {
+                //保存离线网页
+                mIHomeView.getWebView().saveWebArchive(fileName);
+
+                // 添加到侧滑菜单listView中
+                HomeListBean bean = new HomeListBean(new File(fileName).getName(), fileName,
+                        SystemClock.currentThreadTimeMillis(), false, false);
+                //添加到菜单列表
+                addToDrawerLayoutList(bean, true);
+
+                mIHomeView.getAdapter().notifyDataSetChanged();
+
+                Toast.makeText(mContext, R.string.save_local_web_success, Toast
+                        .LENGTH_SHORT)
+                        .show();
+            } catch (Resources.NotFoundException e) {
+                Toast.makeText(mContext, R.string.save_local_web_failure, Toast
+                        .LENGTH_SHORT)
+                        .show();
+            }
+        } else {
+            Toast.makeText(mContext, R.string.save_local_web_exist, Toast.LENGTH_SHORT)
+                    .show();
+        }
     }
 
     /**
@@ -307,4 +317,8 @@ public class HomeEventManager {
         mIHomeView.getActivity().finish();
     }
 
+    public void destroy() {
+        mIHomeView = null;
+        manager = null;
+    }
 }

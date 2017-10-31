@@ -80,8 +80,6 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:drawablePadding="5dp"
-                    android:editable="false"
-                    android:focusable="false"
                     android:hint="@string/settings_input"
                     android:textSize="13sp"
                     android:visibility="gone"/>

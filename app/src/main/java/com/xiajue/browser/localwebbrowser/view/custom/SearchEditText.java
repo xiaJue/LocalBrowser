@@ -126,7 +126,7 @@ public class SearchEditText extends RelativeLayout implements TextWatcher {
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (mEditText.getText().toString().isEmpty()) {
+        if (s.toString().isEmpty()) {
 //            mButtonTextView.setVisibility(GONE);
             mButtonTextView.setText("关闭");
             isClose = true;

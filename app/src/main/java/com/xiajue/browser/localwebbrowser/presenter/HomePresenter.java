@@ -49,7 +49,6 @@ public class HomePresenter {
     private IHomeView mIHomeView;
     private Context mContext;
     private PopupManager mPopupManager;
-    private DialogManager mDialogManager;
     private DatabaseDao mDatabaseDao;
     private HomeEventManager mEventManager;
 
@@ -61,7 +60,6 @@ public class HomePresenter {
         mContext = (Context) mIHomeView;
         mPopupManager = new PopupManager(mContext);
         mDatabaseDao = DatabaseDao.getInstance(mContext);
-        mDialogManager = new DialogManager();
         list_path = SPUtils.getInstance(mContext).getString("list_path");
         //init imageLoader
         ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault
@@ -217,7 +215,13 @@ public class HomePresenter {
                         mIHomeView.getActivity().setPathText(path, 0);
                         mIHomeView.getAdapter().notifyDataSetChanged();
                         mIHomeView.getActivity().setListProgressBarVisible(View.GONE);
-                        mIHomeView.getActivity().setDrawerListSize(View.GONE, mIHomeView
+                        int visible;
+                        if(mIHomeView.getList().size()==0){
+                            visible=View.VISIBLE;
+                        }else{
+                            visible=View.GONE;
+                        }
+                        mIHomeView.getActivity().setDrawerListSize(visible, mIHomeView
                                 .getListView().getFirstVisiblePosition() + "/" + mIHomeView
                                 .getList().size());
                     }
@@ -331,7 +335,7 @@ public class HomePresenter {
      */
     private void showRemoveOperation(final int position) {
         final HomeListBean bean = mIHomeView.getList().get(position);
-        mDialogManager.showInquiry(mContext, !bean.isRemove ? mContext.getString(R.string
+        DialogManager.showInquiry(mContext, !bean.isRemove ? mContext.getString(R.string
                 .is_remove) : mContext.getString(R.string.is_add2all_list), new
                 DialogInterface.OnClickListener() {
                     @Override
@@ -356,7 +360,7 @@ public class HomePresenter {
      * right-item-click显示是否删除的dialog
      */
     private void showDeleteOperation(final int position) {
-        mDialogManager.showInquiry(mContext, mContext.getString(R.string.is_delete), new
+        DialogManager.showInquiry(mContext, mContext.getString(R.string.is_delete), new
                 DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

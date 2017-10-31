@@ -399,10 +399,11 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         destroyWebView();
         mPresenter.destroy();
         mPresenter = null;
+        HomeEventManager.getInstance().destroy();//释放引用。否则会出现功能异常
+        super.onDestroy();
     }
 
     /**
@@ -431,6 +432,13 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
     public void setDrawerListSize(int visibility, String size) {
         mListNullTv.setVisibility(visibility);
         mSizeText.setText(size);
+    }
+
+    /**
+     * @param visibility 是否显示为空的文字
+     */
+    public void setDrawerIsNull(int visibility) {
+        mListNullTv.setVisibility(visibility);
     }
 
     public void setToolbarTitle(String title) {

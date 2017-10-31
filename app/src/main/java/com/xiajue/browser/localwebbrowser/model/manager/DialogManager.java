@@ -11,7 +11,7 @@ import com.xiajue.browser.localwebbrowser.R;
  */
 public class DialogManager {
 
-    public void showInquiry(Context context, String title, DialogInterface.OnClickListener
+    public static void showInquiry(Context context, String title, DialogInterface.OnClickListener
             okListener) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(context);
         dialog.setTitle(title);

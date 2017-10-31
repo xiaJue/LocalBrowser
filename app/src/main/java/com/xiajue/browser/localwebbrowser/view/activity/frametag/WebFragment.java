@@ -218,7 +218,6 @@ public class WebFragment extends BaseFramtag {
     //存储数据到数据库
     private void putAndSettings(String title) {
         HomeActivity activity = getHomeActivity();
-
         if (!mWebView.getUrl().contains(Config.WEB_ABOUT_BLANK) && !mWebView.getUrl().equals("") &&
                 !mWebView.isReload && !mWebView.isGoBack) {
             activity.getHomeFragment().mPresenter.putHistoryData(title, mWebView.getUrl());
