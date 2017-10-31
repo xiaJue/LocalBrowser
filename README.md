@@ -16,23 +16,11 @@ LocalBrowser
 
 <br>
 
-<img width="250" height="444" src="https://github.com/xiaJue/LocalBrowser/blob/master/%E6%88%AA%E5%9B%BE/Screenshot_2017-10-31-17-32-45.png"> 
+<img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/Screenshot_2017-10-31-17-32-45.png"> <img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/Screenshot_2017-10-31-17-32-55.png"> 
 
-<img width="250" height="444" src="https://github.com/xiaJue/LocalBrowser/blob/master/%E6%88%AA%E5%9B%BE/Screenshot_2017-10-31-17-32-55.png"> 
+<img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/Screenshot_2017-10-31-17-34-02.png"> <img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/Screenshot_2017-10-31-17-35-24.png"> 
 
-<br>
-
-<img width="250" height="444" src="https://github.com/xiaJue/LocalBrowser/blob/master/%E6%88%AA%E5%9B%BE/Screenshot_2017-10-31-17-34-02.png"> 
-
-
-<img width="250" height="444" src="https://github.com/xiaJue/LocalBrowser/blob/master/%E6%88%AA%E5%9B%BE/Screenshot_2017-10-31-17-35-24.png"> 
-
-<br>
-
-<img width="250" height="444" src="https://github.com/xiaJue/LocalBrowser/blob/master/%E6%88%AA%E5%9B%BE/Screenshot_2017-10-31-17-36-59.png"> 
-
-
-<img width="250" height="444" src="https://github.com/xiaJue/LocalBrowser/blob/master/%E6%88%AA%E5%9B%BE/Screenshot_2017-10-31-17-38-21.png"> 
+<img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/Screenshot_2017-10-31-17-36-59.png"> <img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/Screenshot_2017-10-31-17-38-21.png"> 
 
 <br>
 
