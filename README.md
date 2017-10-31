@@ -13,7 +13,7 @@ LocalBrowser
 * 浏览html、mht网页文件
 * 缓存在线网页
 * 精简浏览器
-* 等等<img width="25" height="25" src="/%E6%88%AA%E5%9B%BE/hj.jpg">
+* 等等<img width="32" height="17" src="/%E6%88%AA%E5%9B%BE/hj.jpg">
 
 
 apk 下载<a href='https://github.com/xiaJue/LocalBrowser/raw/master/localBrowser.apk'>download</a>
