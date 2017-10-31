@@ -10,6 +10,13 @@ LocalBrowser
 
 #### Version 1.0
 
+* 浏览html、mht网页文件
+* 缓存在线网页
+* 精简浏览器
+* 等等<img width="45" height="45" src="http://wenwen.soso.com/p/20160602/20160602131546-612414460.jpg">
+
+apk 下载<a href='https://github.com/xiaJue/LocalBrowser/raw/master/localBrowser.apk'>download</a>
+
 <br>
 
 *****
@@ -25,10 +32,6 @@ LocalBrowser
 <br>
 
 *****
-
-<br>
-apk 下载<a href='https://github.com/xiaJue/LocalBrowser/raw/master/localBrowser.apk'>download</a>
-<br>
 
 #### 第三方开源库以及部分数据来源:
 
