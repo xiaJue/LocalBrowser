@@ -38,6 +38,8 @@ apk 下载<a href='https://github.com/xiaJue/LocalBrowser/raw/master/localBrowse
 
 <br>
 
+##### 第三方库：
+
 * tbs_sdk_thirdapp.jar(腾讯X5内核)
 * ru.bartwell:exfilepicker:2.1(文件选择)
 * com.android.support:design:25.2.0
@@ -72,4 +74,8 @@ apk 下载<a href='https://github.com/xiaJue/LocalBrowser/raw/master/localBrowse
 <br>
 
 *****
+
+#### 版权声明：
+
+******
 
