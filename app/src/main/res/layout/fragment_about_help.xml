@@ -35,6 +35,7 @@
                 style="@style/about_text_style"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
+                android:textColor="@color/titleTextColor"
                 android:text="@string/help"
                 android:textSize="15sp"/>
         </LinearLayout>
@@ -49,42 +50,36 @@
             <TextView
                 style="@style/about_text_style"
                 android:layout_marginBottom="10dp"
-                android:text="@string/help_add"
-                android:textColor="#88000000"/>
+                android:text="@string/help_add"/>
 
             <TextView
                 style="@style/about_text_style"
                 android:layout_marginBottom="10dp"
                 android:text="@string/help_item_button"
-                android:textColor="#88000000"
                 android:textSize="13sp"/>
 
             <TextView
                 style="@style/about_text_style"
                 android:layout_marginBottom="10dp"
                 android:text="@string/help_search"
-                android:textColor="#88000000"
                 android:textSize="13sp"/>
 
             <TextView
                 style="@style/about_text_style"
                 android:layout_marginBottom="10dp"
                 android:text="@string/help_link"
-                android:textColor="#88000000"
                 android:textSize="13sp"/>
 
             <TextView
                 style="@style/about_text_style"
                 android:layout_marginBottom="10dp"
                 android:text="@string/help_tag"
-                android:textColor="#88000000"
                 android:textSize="13sp"/>
 
             <TextView
                 style="@style/about_text_style"
                 android:layout_marginBottom="10dp"
                 android:text="@string/help_bug"
-                android:textColor="#88000000"
                 android:textSize="13sp"/>
 
         </LinearLayout>

@@ -1,6 +1,6 @@
 package com.xiajue.browser.localwebbrowser.view.activity.viewInterface;
 
-import android.widget.Button;
+import android.view.View;
 import android.widget.EditText;
 
 import com.xiajue.browser.localwebbrowser.view.activity.SettingsActivity;
@@ -10,6 +10,6 @@ import com.xiajue.browser.localwebbrowser.view.activity.SettingsActivity;
  */
 public interface ISettingsView {
     EditText getInEditText();
-    Button getInSaveButton();
+    View getInSaveButton();
     SettingsActivity getActivity();
 }

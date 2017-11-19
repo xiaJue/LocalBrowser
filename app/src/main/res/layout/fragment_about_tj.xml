@@ -29,6 +29,7 @@
             <TextView
                 style="@style/about_text_style"
                 android:layout_marginBottom="5dp"
+                android:textColor="@color/titleTextColor"
                 android:text="@string/picture_bing"
                 android:textSize="15sp"/>
 

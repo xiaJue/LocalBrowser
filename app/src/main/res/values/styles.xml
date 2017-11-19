@@ -6,8 +6,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorWinBack</item>
         <item name="drawerArrowStyle">@style/AppTheme.DrawerArrowToggle</item>
         <item name="android:textColorSecondary">#ffffff</item>
+        <item name="android:textColor">@color/textColor</item>
     </style>
 
     <style name="AppTheme.DrawerArrowToggle" parent="Base.Widget.AppCompat.DrawerArrowToggle">

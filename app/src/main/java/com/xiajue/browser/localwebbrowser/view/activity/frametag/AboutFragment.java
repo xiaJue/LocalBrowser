@@ -1,19 +1,22 @@
 package com.xiajue.browser.localwebbrowser.view.activity.frametag;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.ClipboardManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiajue.browser.localwebbrowser.R;
 import com.xiajue.browser.localwebbrowser.model.Config;
+import com.xiajue.browser.localwebbrowser.view.activity.ImageActivity;
+
+import static com.xiajue.browser.localwebbrowser.model.manager.ApplicationManager.getVersionName;
 
 /**
  * xiaJue 2017/9/19创建
@@ -26,6 +29,8 @@ public class AboutFragment extends BaseFramtag implements View.OnClickListener {
     private TextView mGankeTv;
     private TextView mBingTv;
     private TextView mVersion;
+    private ImageView mWeiXinImg;
+    private ImageView mZhiFuBaoImg;
 
     @Nullable
     @Override
@@ -45,6 +50,8 @@ public class AboutFragment extends BaseFramtag implements View.OnClickListener {
         mGankeTv = (TextView) view.findViewById(R.id.home_about_ganke);
         mBingTv = (TextView) view.findViewById(R.id.home_about_bing);
         mVersion = (TextView) view.findViewById(R.id.home_about_version);
+        mWeiXinImg = (ImageView) view.findViewById(R.id.weixin_img);
+        mZhiFuBaoImg = (ImageView) view.findViewById(R.id.zhifubao_img);
     }
 
     private void set() {
@@ -56,6 +63,9 @@ public class AboutFragment extends BaseFramtag implements View.OnClickListener {
         mBingTv.setOnClickListener(this);
         //获得应用版本号
         mVersion.setText(getString(R.string.version) + getVersionName(getContext()));
+
+        mWeiXinImg.setOnClickListener(this);
+        mZhiFuBaoImg.setOnClickListener(this);
     }
 
     @Override
@@ -90,24 +100,20 @@ public class AboutFragment extends BaseFramtag implements View.OnClickListener {
                 getHomeActivity().getWebView().loadUrl(Config.BING_URL);
                 getHomeActivity().getViewPager().setCurrentItem(1);
                 break;
+            case R.id.weixin_img:
+                Intent intent = new Intent(getContext(), ImageActivity.class);
+                intent.putExtra("image_res", R.mipmap.weixin);
+                intent.putExtra("type", getString(R.string.weixin));
+                intent.putExtra("name", getString(R.string.weixin_ds));
+                startActivity(intent);
+                break;
+            case R.id.zhifubao_img:
+                Intent intent2 = new Intent(getContext(), ImageActivity.class);
+                intent2.putExtra("image_res", R.mipmap.zhifubao);
+                intent2.putExtra("type", getString(R.string.zhifubao));
+                intent2.putExtra("name", getString(R.string.zfb_ds));
+                startActivity(intent2);
+                break;
         }
-    }
-
-    /**
-     * 获取版本号
-     *
-     * @return 当前应用的版本号
-     */
-    private String getVersionName(Context context) {
-        PackageManager packageManager = context.getPackageManager();
-        // getPackageName()是你当前类的包名，0代表是获取版本信息
-        PackageInfo packInfo = null;
-        try {
-            packInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        String version = packInfo.versionName;
-        return version;
     }
 }

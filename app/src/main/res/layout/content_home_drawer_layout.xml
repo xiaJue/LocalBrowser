@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="start"
-    android:background="@color/listview_bg_color">
+    android:background="@color/item_BgColor">
 
     <RelativeLayout
         android:id="@+id/home_drawer_back"
@@ -24,8 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="@string/not_contents"
-        android:textColor="@color/refresh_color"/>
+        android:text="@string/not_contents"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -66,7 +65,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:scaleType="fitCenter"
-                    android:src="@mipmap/see_remove"/>
+                    android:src="@mipmap/remove"/>
 
                 <ImageView
                     android:id="@+id/home_collection_see"
@@ -87,8 +86,8 @@
                 android:ellipsize="end"
                 android:hint="@string/input_select_content_hint"
                 android:maxLines="1"
-                android:textColor="@color/refresh_color"
-                android:textColorHint="@color/refresh_color"
+                android:textColor="@color/titleTextColor"
+                android:textColorHint="@color/textColor"
                 android:textSize="15sp"
                 android:visibility="gone"/>
 
@@ -109,7 +108,7 @@
                 android:layout_weight="1"
                 android:gravity="right|center_vertical"
                 android:text="555"
-                android:textColor="@color/refresh_color"/>
+                android:textColor="@color/titleTextColor"/>
         </LinearLayout>
 
         <ListView
@@ -117,8 +116,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:divider="@color/listview_text_color"
-            android:dividerHeight="1dp"
             android:scrollbarAlwaysDrawHorizontalTrack="true"
             android:scrollbarThumbVertical="@drawable/home_list_scrollbar"
             ></ListView>
@@ -133,14 +130,34 @@
                 android:layout_height="1dp"
                 android:background="@color/listview_text_color"/>
 
-            <TextView
-                android:id="@+id/home_listPath_tv"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:maxLines="2"
-                android:text="@string/select_path"
-                android:textColor="@color/refresh_color"/>
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/home_listPath_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="@string/select_path"
+                    android:textColor="@color/titleTextColor"/>
+
+                <TextView
+                    android:id="@+id/home_drawer_clear_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="5dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/clear"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>

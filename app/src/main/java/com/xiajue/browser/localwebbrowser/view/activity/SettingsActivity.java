@@ -6,11 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.xiajue.browser.localwebbrowser.R;
 import com.xiajue.browser.localwebbrowser.model.manager.Settings;
@@ -29,16 +29,16 @@ public class SettingsActivity extends BaseActivity implements CompoundButton
     private RadioButton mLastButton;
     private RadioButton mInButton;
     private EditText mInEditText;
-    private Button mInSaveButton;
+    private TextView mInSaveButton;
 
     public CheckBox mHomeImageCheckBox;
     public CheckBox mLoadPathCheckBox;
     public CheckBox mSlideTagCheckBox;
 
     public EditText mFilePathEditText;
-    public Button mFilePathButton;
+    public TextView mFilePathButton;
     public EditText mImagePathEditText;
-    public Button mImagePathButton;
+    public TextView mImagePathButton;
 
     private SettingsPresenter mPresenter;
 
@@ -60,11 +60,16 @@ public class SettingsActivity extends BaseActivity implements CompoundButton
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        super.onCreate(savedInstanceState);
         mPresenter = new SettingsPresenter(this);
         bindView();
         set();
+    }
+
+    @Override
+    public Toolbar getToolbarToBaseActivity() {
+        return getView(R.id.settings_toolbar);
     }
 
     private void set() {
@@ -129,7 +134,7 @@ public class SettingsActivity extends BaseActivity implements CompoundButton
     }
 
     @Override
-    public Button getInSaveButton() {
+    public View getInSaveButton() {
         return mInSaveButton;
     }
 

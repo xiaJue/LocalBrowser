@@ -23,6 +23,14 @@ public class FileUtils {
         return FAILURE;
     }
 
+    public static int copyFile(File file, String dir, String name,File[] outFile) {
+        if (file.exists()) {
+            outFile[0] = new File(dir, changeSuff(name, ".jpg"));
+            return toCopy(file, outFile[0]);
+        }
+        return FAILURE;
+    }
+
     public static int toCopy(File srcFile, File destFile) {
 
         // 判断源文件是否存在

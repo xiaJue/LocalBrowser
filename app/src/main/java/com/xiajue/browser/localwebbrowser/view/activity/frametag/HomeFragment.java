@@ -8,21 +8,24 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.fynn.fluidlayout.FluidLayout;
 import com.xiajue.browser.localwebbrowser.R;
 import com.xiajue.browser.localwebbrowser.adapter.HomeHistoryListAdapter;
+import com.xiajue.browser.localwebbrowser.model.Config;
+import com.xiajue.browser.localwebbrowser.model.bean.CommonWebsiteBean;
 import com.xiajue.browser.localwebbrowser.model.manager.Settings;
 import com.xiajue.browser.localwebbrowser.model.manager.SettingsUtils;
+import com.xiajue.browser.localwebbrowser.model.utils.DensityUtils;
 import com.xiajue.browser.localwebbrowser.presenter.HomeFragmentPresenter;
+import com.xiajue.browser.localwebbrowser.view.custom.AdaptListView;
 import com.xiajue.browser.localwebbrowser.view.custom.SearchEditText;
-import com.xiajue.browser.localwebbrowser.view.custom.XJNestedScrollView;
+import com.xiajue.browser.localwebbrowser.view.custom.ExtendedNestedScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +35,7 @@ import java.util.List;
  * xiaJue 2017/9/19创建
  */
 public class HomeFragment extends BaseFramtag implements View.OnClickListener, SearchEditText
-        .OnButtonClickListener {
+        .OnButtonClickListener, SearchEditText.OnStateChangeListener {
     private View mTopView;
     public SwipeRefreshLayout mRefreshLayout;
     public SearchEditText mSearchEditText;
@@ -43,12 +46,14 @@ public class HomeFragment extends BaseFramtag implements View.OnClickListener, S
     public RelativeLayout mMeiziRl;
     public RelativeLayout mBingRl;
     public RelativeLayout mSettings;
-    public ListView mListView;
+    public AdaptListView mListView;
     public TextView mClearHistoryTv;
     public HomeHistoryListAdapter mHistoryAdapter;
     public HomeFragmentPresenter mPresenter;
     public View mHomeHistoryRootView;
-    public XJNestedScrollView mNestedScrollView;
+    public ExtendedNestedScrollView mNestedScrollView;
+    public FluidLayout mFluidLayout;
+    public TextView mCommonTv;
     public List mList;
 
     public HomeFragment() {
@@ -79,10 +84,12 @@ public class HomeFragment extends BaseFramtag implements View.OnClickListener, S
         mBingRl = (RelativeLayout) view.findViewById(R.id.home_home_bing_rl);
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.home_home_refreshLayout);
         mSettings = (RelativeLayout) view.findViewById(R.id.home_home_settings);
-        mListView = (ListView) view.findViewById(R.id.home_home_listView);
+        mListView = (AdaptListView) view.findViewById(R.id.home_home_listView);
         mClearHistoryTv = (TextView) view.findViewById(R.id.home_home_clear_History);
         mHomeHistoryRootView = view.findViewById(R.id.home_home_history_root_v);
-        mNestedScrollView = (XJNestedScrollView) view.findViewById(R.id.home_home_nested);
+        mNestedScrollView = (ExtendedNestedScrollView) view.findViewById(R.id.home_home_nested);
+        mFluidLayout = (FluidLayout) view.findViewById(R.id.home_home_fluidLayout);
+        mCommonTv = (TextView) view.findViewById(R.id.home_home_common_tv);
     }
 
     /**
@@ -102,9 +109,36 @@ public class HomeFragment extends BaseFramtag implements View.OnClickListener, S
         setEvent();//设置事件
         setRefresh();//设置刷新控件
         setHistoryListView();//设置历史ListView
+        setFluidLayout();
     }
 
-//    private int lastY = 0;
+    private List mCommonWebsiteList;
+
+    private void setFluidLayout() {
+        mCommonWebsiteList = new ArrayList();
+        for (int i = 0; i < Config.COMMON_ADDRESS.length; i++) {
+            CommonWebsiteBean bean = new CommonWebsiteBean(Config.COMMON_ADDRESS_TITLE[i], Config
+                    .COMMON_ADDRESS[i]);
+            mCommonWebsiteList.add(bean);
+            TextView textView = new TextView(getContext());
+            textView.setText(bean.getTitle());
+            //设置padding
+            int leftPadding = DensityUtils.dp2px(getContext(), 3);
+            int topPadding = DensityUtils.dp2px(getContext(), 2);
+            textView.setPadding(leftPadding, topPadding, leftPadding, topPadding);
+            //set background
+            textView.setBackgroundResource(R.drawable.button_back);
+            //set onClickListener
+            textView.setOnClickListener(mPresenter.onCommonWebsiteClickListener(i));
+            //设置margins
+            FluidLayout.LayoutParams lp = new FluidLayout.LayoutParams(ViewGroup.LayoutParams
+                    .WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp.setMargins(leftPadding, topPadding, leftPadding, topPadding);
+            textView.setLayoutParams(lp);
+            //add
+            mFluidLayout.addView(textView);
+        }
+    }
 
     /**
      * 设置listView
@@ -115,36 +149,8 @@ public class HomeFragment extends BaseFramtag implements View.OnClickListener, S
         mHistoryAdapter = new HomeHistoryListAdapter(getContext(), mList, mHomeHistoryRootView,
                 mListView);
         mListView.setAdapter(mHistoryAdapter);
+        mListView.setList(mList);
         mHistoryAdapter.notifyDataSetChanged();//预先排序一次
-        /**
-         * refreshLayout和listView冲突问题的解决
-         */
-        mListView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//                    lastY = (int) event.getY();
-                    boolean enable = false;
-                    if (mListView != null && mListView.getChildCount() > 0) {
-                        // check if the first item of the list is visible
-                        boolean firstItemVisible = mListView.getFirstVisiblePosition() == 0;
-                        // check if the top of the first item is visible
-                        boolean topOfFirstItemVisible = mListView.getChildAt(0).getTop() == 0;
-                        // enabling or disabling the refresh layout
-                        enable = firstItemVisible && topOfFirstItemVisible;
-                    }
-                    mRefreshLayout.setEnabled(mTopView.isShown() ? enable : false);
-                    mNestedScrollView.setCancelScroll(true);
-//                    L.e("禁止滑动");
-
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    mRefreshLayout.setEnabled(mTopView.isShown() ? true : false);
-                    mNestedScrollView.setCancelScroll(false);
-//                    L.e("恢复滑动");
-                }
-                return false;
-            }
-        });
         mListView.setOnItemClickListener(mPresenter.onItemClickListener());
         mListView.setFocusable(false);
         //长按删除--上下文菜单
@@ -207,6 +213,7 @@ public class HomeFragment extends BaseFramtag implements View.OnClickListener, S
      */
     private void setEvent() {
         mSearchEditText.setOnButtonClickListener(this);
+        mSearchEditText.setOnStateChangeListener(this);
         mBingRl.setOnClickListener(this);
         mMeiziRl.setOnClickListener(this);
         mSettings.setOnClickListener(this);
@@ -219,13 +226,20 @@ public class HomeFragment extends BaseFramtag implements View.OnClickListener, S
     }
 
     @Override
-    public void onButtonClick(View view, String text) {
-        mPresenter.onButtonClick(view, text);
+    public void onStateChange(boolean state) {
+        if (state) {
+            mFluidLayout.setVisibility(View.VISIBLE);
+            mCommonTv.setVisibility(View.VISIBLE);
+        } else {
+            mFluidLayout.setVisibility(View.GONE);
+            mCommonTv.setVisibility(View.GONE);
+            mPresenter.onButtonClose();
+        }
     }
 
     @Override
-    public void onButtonClose() {
-        mPresenter.onButtonClose();
+    public void onButtonClick(View view, String text) {
+        mPresenter.onButtonClick(view, text);
     }
 
     @Override
@@ -247,11 +261,19 @@ public class HomeFragment extends BaseFramtag implements View.OnClickListener, S
         }
     }
 
+    public List<CommonWebsiteBean> getCommonWebsiteList() {
+        return mCommonWebsiteList;
+    }
+
     /**
      * 取消加载图片
      */
     public void cancelLoadImage() {
         mPresenter.cancelLoadImage();
         mPresenter = null;
+    }
+
+    public SearchEditText getSearchEditText() {
+        return mSearchEditText;
     }
 }

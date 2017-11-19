@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar
+<com.xiajue.browser.localwebbrowser.view.custom.ExtendedToolbar
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/image_toolbar"
     android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
-    android:background="@color/toolbar_color">
+    android:layout_height="wrap_content"
+    android:minHeight="?attr/actionBarSize">
 
     <TextView
         android:id="@+id/image_title_tv"
@@ -15,4 +15,4 @@
         android:text="@string/app_name"
         android:textColor="@color/toolbarTextColor"
         android:textSize="18sp"/>
-</android.support.v7.widget.Toolbar>
+</com.xiajue.browser.localwebbrowser.view.custom.ExtendedToolbar>

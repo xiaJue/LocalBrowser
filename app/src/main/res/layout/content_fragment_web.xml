@@ -4,44 +4,106 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/listview_bg_color"
+    android:background="@color/colorWinBack"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <ProgressBar
-            android:id="@+id/home_progressBar"
-            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:max="100"
-            android:progressDrawable="@drawable/progressbar"
-            android:visibility="gone"/>
-
-
+        android:background="@color/colorWinBack">
+        <!--webView-->
         <com.xiajue.browser.localwebbrowser.view.custom.ExtendedWebView
             android:id="@+id/home_webView"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:overScrollMode="never">
 
         </com.xiajue.browser.localwebbrowser.view.custom.ExtendedWebView>
-    </LinearLayout>
+        <!--错误页面-->
+        <include layout="@layout/content_fragment_web_error"/>
+        <!--进度条-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal">
 
-    <include layout="@layout/content_fragment_web_error"/>
+            <ProgressBar
+                android:id="@+id/home_progressBar"
+                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="0dp"
+                android:layout_height="4dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:max="100"
+                android:progressDrawable="@drawable/progressbar"
+                android:visibility="gone"/>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/home_web_fab"
+            <ImageView
+                android:id="@+id/home_web_close_load"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:layout_gravity="center_vertical"
+                android:padding="3dp"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/close_load"
+                android:visibility="gone"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!--全屏时显示取消全屏按钮的按钮-->
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="10dp"
-        app:backgroundTint="@color/tagColor"
-        android:visibility="gone"
-        app:srcCompat="@mipmap/back"/>
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/home_web_show_unFull"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:background="@drawable/circle_bg"
+            android:src="@mipmap/overflow_icon"
+            android:visibility="gone"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/home_web_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:visibility="gone"
+            app:backgroundTint="@color/tagColor"
+            app:srcCompat="@mipmap/back"/>
+
+    </LinearLayout>
+    <!--取消全屏和菜单按钮-->
+    <LinearLayout
+        android:id="@+id/home_web_bottom_root"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/button_back"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/home_web_unFull_but"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/un_full"/>
+
+        <ImageView
+            android:id="@+id/home_web_menu_but"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/overflow_icon"/>
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

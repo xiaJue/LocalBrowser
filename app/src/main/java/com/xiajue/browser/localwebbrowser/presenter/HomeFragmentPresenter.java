@@ -14,8 +14,10 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.xiajue.browser.localwebbrowser.R;
+import com.xiajue.browser.localwebbrowser.model.Config;
 import com.xiajue.browser.localwebbrowser.model.bean.BingBean;
 import com.xiajue.browser.localwebbrowser.model.bean.BingBeanList;
+import com.xiajue.browser.localwebbrowser.model.bean.CommonWebsiteBean;
 import com.xiajue.browser.localwebbrowser.model.bean.HistoryBean;
 import com.xiajue.browser.localwebbrowser.model.bean.MeiziBeanList;
 import com.xiajue.browser.localwebbrowser.model.database.DatabaseDao;
@@ -25,6 +27,7 @@ import com.xiajue.browser.localwebbrowser.model.manager.Settings;
 import com.xiajue.browser.localwebbrowser.model.utils.KeyBoardUtils;
 import com.xiajue.browser.localwebbrowser.model.utils.SPUtils;
 import com.xiajue.browser.localwebbrowser.model.utils.ScreenUtils;
+import com.xiajue.browser.localwebbrowser.model.utils.StringUtils;
 import com.xiajue.browser.localwebbrowser.view.activity.ImageActivity;
 import com.xiajue.browser.localwebbrowser.view.activity.SettingsActivity;
 import com.xiajue.browser.localwebbrowser.view.activity.frametag.HomeFragment;
@@ -60,8 +63,7 @@ public class HomeFragmentPresenter {
 
     public void onButtonClick(View view, String text) {
         try {
-            if (!text.substring(0, 7).equals("http://") && !text.substring(0, 8).equals
-                    ("https://")) {
+            if (!StringUtils.isUrl(text)) {
                 text = "http://" + text;
             }
         } catch (Exception e) {
@@ -178,8 +180,10 @@ public class HomeFragmentPresenter {
                             imageView.getLayoutParams().height = imgHeight;
                             mHomeFragment.mMeiziRl.getLayoutParams().width = imgWidth;
                             //设置侧滑菜单背景
-                            mHomeFragment.getHomeActivity().getActivity().setDrawerBackground
-                                    (loadedImage);
+                            if (Config.IS_SET_DRAWER_MENU_BGIMG) {
+                                mHomeFragment.getHomeActivity().getActivity().setDrawerBackground
+                                        (loadedImage);
+                            }
                             //设置文字
                             mHomeFragment.mMeiziTv.setText(mHomeFragment.getString(R.string
                                     .meizi_text));
@@ -287,7 +291,7 @@ public class HomeFragmentPresenter {
     //存储"历史记录"数据到数据库
     public void putHistoryData(String title, String url) {
         DatabaseDao dao = DatabaseDao.getInstance(mHomeFragment.getContext());
-        if (dao.selectHistorySize() == HISTORY_LIST_MAX_SIZE) {
+        if (HISTORY_LIST_MAX_SIZE != -1 && dao.selectHistorySize() == HISTORY_LIST_MAX_SIZE) {
             //删除最后一条数据
             dao.delete(new HistoryBean(dao.selectHistory().get(0).getLastLoad(), "", ""));
             mHomeFragment.mList.remove(0);
@@ -328,5 +332,18 @@ public class HomeFragmentPresenter {
         mHistoryDao.delete((HistoryBean) mHomeFragment.mList.get(menuInfo.position));
         mHomeFragment.mList.remove(menuInfo.position);
         mHomeFragment.mHistoryAdapter.notifyDataSetChanged();
+    }
+
+    public View.OnClickListener onCommonWebsiteClickListener(final int position) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                mHomeFragment.getHomeActivity().getWebView().loadUrl(mHomeFragment
+//                        .getCommonWebsiteList().get(position).getAddress());
+//                mHomeFragment.getHomeActivity().getViewPager().setCurrentItem(1);
+                CommonWebsiteBean bean = mHomeFragment.getCommonWebsiteList().get(position);
+                mHomeFragment.getSearchEditText().setText(bean.getAddress());
+            }
+        };
     }
 }

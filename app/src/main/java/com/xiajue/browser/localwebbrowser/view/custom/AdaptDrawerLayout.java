@@ -8,17 +8,17 @@ import android.view.MotionEvent;
 /**
  * xiaJue 2017/9/15创建
  */
-public class XJDrawerLayout extends DrawerLayout {
+public class AdaptDrawerLayout extends DrawerLayout {
 
-    public XJDrawerLayout(Context context) {
+    public AdaptDrawerLayout(Context context) {
         super(context);
     }
 
-    public XJDrawerLayout(Context context, AttributeSet attrs) {
+    public AdaptDrawerLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public XJDrawerLayout(Context context, AttributeSet attrs, int defStyle) {
+    public AdaptDrawerLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 

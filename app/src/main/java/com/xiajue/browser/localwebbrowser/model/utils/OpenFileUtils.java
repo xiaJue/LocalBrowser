@@ -4,7 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.widget.Toast;
+import android.os.Build;
+import android.support.v4.content.FileProvider;
 
 import java.io.File;
 
@@ -20,20 +21,7 @@ public class OpenFileUtils {
      * @param file
      */
     public static void openFile(Context context, File file) {
-        Intent intent = new Intent();
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //设置intent的Action属性
-        intent.setAction(Intent.ACTION_VIEW);
-        //获取文件file的MIME类型
-        String type = getMIMEType(file);
-        //设置intent的data和Type属性。
-        intent.setDataAndType(Uri.fromFile(file), type);
-        //跳转
-        try {
-            context.startActivity(intent);
-        } catch (Exception e) {
-            Toast.makeText(context, "找不到打开此文件的应用！", Toast.LENGTH_SHORT).show();
-        }
+        context.startActivity(getFileIntent(context, file));
     }
 
     /**
@@ -43,28 +31,27 @@ public class OpenFileUtils {
      * @param file
      */
     public static Intent getFileIntent(Context context, File file) {
-        Intent intent = new Intent();
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //设置intent的Action属性
-        intent.setAction(Intent.ACTION_VIEW);
-        //获取文件file的MIME类型
-        String type = getMIMEType(file);
-        //设置intent的data和Type属性。
-        intent.setDataAndType(Uri.fromFile(file), type);
-        //跳转
-        try {
-            return intent;
-        } catch (Exception e) {
-            Toast.makeText(context, "找不到打开此文件的应用！", Toast.LENGTH_SHORT).show();
-            return null;
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        Uri contentUri;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            //7.0以上必须这样
+            String authority = context.getPackageName();
+            contentUri = FileProvider.getUriForFile(context, authority, file);
+        } else {
+            contentUri = Uri.fromFile(file);
         }
+        String MimeType = context.getContentResolver().getType(contentUri);
+        intent.setDataAndType(contentUri, MimeType);
+        return intent;
     }
 
     /***
      * 根据文件后缀回去MIME类型
      ****/
 
-    private static String getMIMEType(File file) {
+    public static String getMIMEType(File file) {
         String type = "*/*";
         String fName = file.getName();
         //获取后缀名前的分隔符"."在fName中的位置。

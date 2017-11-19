@@ -24,7 +24,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/StartTheme"
-            android:windowSoftInputMode="stateHidden|adjustResize">
+            android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -33,12 +33,27 @@
         </activity>
         <activity
             android:name="ru.bartwell.exfilepicker.ui.activity.ExFilePickerActivity"
+            android:launchMode="singleTask"
             android:theme="@style/ExFilePickerThemeDark"
             tools:replace="android:theme"/>
         <activity android:name=".view.activity.ImageActivity"/>
         <activity
             android:name=".view.activity.SettingsActivity"
             android:windowSoftInputMode="adjustPan"/>
-    </application>
 
+        <service android:name="cn.woblog.android.downloader.DownloadService">
+            <intent-filter>
+                <action android:name="cn.woblog.android.downloader.DOWNLOAD_SERVICE"/>
+            </intent-filter>
+        </service>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.xiajue.browser.localwebbrowser"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+    </application>
 </manifest>

@@ -44,7 +44,7 @@
             android:layout_marginTop="5dp"
             android:background="@color/meizi_text_bgColor"
             android:padding="10dp"
-            android:textColor="#fff"/>
+            android:textColor="@color/titleTextColor"/>
     </RelativeLayout>
 
     <View
@@ -81,6 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/home_home_bing_iv"
             android:layout_marginTop="5dp"
+            android:textColor="@color/titleTextColor"
             android:textSize="12sp"/>
 
     </RelativeLayout>

@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <!--background color-->
+    <color name="colorPrimary">#607377</color>
+    <color name="colorPrimaryDark">#3D565D</color>
     <color name="colorAccent">#47B5FF</color>
+    <color name="colorWinBack">#607377</color>
+    <color name="toolbarBgColor">#607377</color>
     <color name="tagColor">#60C842</color>
-    <color name="toolbar_color">#3C3F41</color>
-    <color name="toolbarTextColor">#ffffff</color>
+    <color name="bottomBgColor">#607377</color>
+    <color name="item_BgColor">#3D565D</color>
+    <!--textColor-->
+    <color name="textColor">#9EBCC4</color>
+    <color name="titleTextColor">#EEF2FB</color>
+    <color name="minTextColor">#889EBCC4</color>
+    <color name="webTextColor">#88000000</color>
+
+    <color name="toolbarTextColor">#FCFFFF</color>
     <color name="popupMenuTextColor">#696969</color>
     <color name="popupMenuBgColor">#ffffff</color>
     <color name="popupMenuBgColor_pressed">#666666</color>
@@ -17,4 +27,5 @@
     <color name="refresh_color">#47B5FF</color>
     <color name="meizi_text_bgColor">#903C3F41</color>
     <color name="ImageLoadingBack">#45494A</color>
+    <color name="list_right_button_bgColor">#DF836C</color>
 </resources>

@@ -22,6 +22,7 @@ import android.view.ViewParent;
 import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -31,12 +32,15 @@ import com.xiajue.browser.localwebbrowser.R;
 import com.xiajue.browser.localwebbrowser.adapter.HomeListAdapter;
 import com.xiajue.browser.localwebbrowser.model.Config;
 import com.xiajue.browser.localwebbrowser.model.bean.HomeListBean;
+import com.xiajue.browser.localwebbrowser.model.manager.ApplicationManager;
 import com.xiajue.browser.localwebbrowser.model.manager.HomeEventManager;
+import com.xiajue.browser.localwebbrowser.model.manager.Settings;
 import com.xiajue.browser.localwebbrowser.model.manager.SettingsUtils;
 import com.xiajue.browser.localwebbrowser.model.utils.FastBlurUtils;
 import com.xiajue.browser.localwebbrowser.model.utils.KeyBoardUtils;
 import com.xiajue.browser.localwebbrowser.model.utils.L;
 import com.xiajue.browser.localwebbrowser.model.utils.SPUtils;
+import com.xiajue.browser.localwebbrowser.model.utils.ScreenUtils;
 import com.xiajue.browser.localwebbrowser.presenter.HomePresenter;
 import com.xiajue.browser.localwebbrowser.view.activity.frametag.AboutFragment;
 import com.xiajue.browser.localwebbrowser.view.activity.frametag.HomeFragment;
@@ -44,6 +48,7 @@ import com.xiajue.browser.localwebbrowser.view.activity.frametag.WebFragment;
 import com.xiajue.browser.localwebbrowser.view.activity.viewInterface.IHomeView;
 import com.xiajue.browser.localwebbrowser.view.custom.ExtendedViewPager;
 import com.xiajue.browser.localwebbrowser.view.custom.ExtendedWebView;
+import com.xiajue.browser.localwebbrowser.view.custom.ExtendedToolbar;
 import com.xiajue.popupmenu.popupWindowMenu.PopWinMenu;
 
 import java.util.ArrayList;
@@ -52,16 +57,20 @@ import java.util.List;
 public class HomeActivity extends BaseActivity implements IHomeView, View.OnClickListener,
         PopWinMenu.OnItemSelectListener {
 
-    private Toolbar mToolbar;
+    private View mRootView;
+    private ExtendedToolbar mToolbar;
+    private LinearLayout mBottomView;
     private DrawerLayout mDrawLayout;
     private ExtendedViewPager mViewPager;
     private ActionBarDrawerToggle mToggle;
     private List mList;
     private TextView mToolbarText;
+    private TextView mToolbarListText;
     public ProgressBar mListProgressBar;
     //list view
     public ListView mListView;
     public TextView mListNullTv;
+    public TextView mClearList;
     private HomeListAdapter mAdapter;
     public ImageView mRemoveSee;
     public ImageView mCollectionSee;
@@ -85,14 +94,24 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
     private HomeFragment mHomeFragment;
     private AboutFragment mAboutFragment;
     private List<Fragment> mFragmentList;
+    private int[] menu_string_res = new int[]{R.string.refresh, R.string.close_web, R.string
+            .copy_link_address,
+            R.string.open_from_browser, R.string.save_local_web, R.string.exit};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        //检查版本
+        ApplicationManager.checkVersionUpdate(this);
         setContentView(R.layout.activity_home);
+        super.onCreate(savedInstanceState);
         mPresenter = new HomePresenter(this);
         bindViews();
         set();
+    }
+
+    @Override
+    public Toolbar getToolbarToBaseActivity() {
+        return getView(R.id.home_toolbar);
     }
 
     private void bindViews() {
@@ -118,9 +137,15 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
         mWeb = getView(R.id.home_web_iv);
         mAbout = getView(R.id.home_about_iv);
         mDrawerBackground = getView(R.id.home_drawer_back);
+        mToolbarListText = getView(R.id.home_toolbar_list_text);
+        mBottomView = getView(R.id.home_bottom_root_view);
+        mRootView = getView(R.id.home_root_view);
+        mClearList = getView(R.id.home_drawer_clear_list);
     }
 
     private void set() {
+        //创建应用文件目录
+        createAppDir();
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
         //set toolbar
         setToolbar();
@@ -145,22 +170,22 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
         setPopupMenu();
     }
 
+    private void createAppDir() {
+        //如果版本高于23则发起权限请求
+        ApplicationManager.sendPermissioRequest(this);
+        Settings.createDir(this);
+    }
+
     private void setPopupMenu() {
         //set overflow menu
         mPopupMenu = new PopWinMenu(this, mToolbar);
-        mPopupMenu.setBackgroundColorRes(R.color.toolbar_color);
-        mPopupMenu.setDivider(1, Color.parseColor("#2B2B2B"));
-        mPopupMenu.setOnTouchItemBgColor(Color.parseColor("#313335"));
-        mPopupMenu.add(new int[]{R.string.close_web, R.string.copy_link_address, R.string
-                        .open_from_browser,
-                        R.string.save_local_web, R.string.exit}, new int[]{R.mipmap.close, R
-                        .mipmap.copy,
-                        R.mipmap.browser, R.mipmap.menu_save, R.mipmap.exit}, android.R.color
-                        .white, 16,
-                0, null);
+//        mPopupMenu.setBackgroundColorRes(R.color.item_BgColor);
+//        mPopupMenu.setDivider(1, Color.parseColor("#2B2B2B"));
+//        mPopupMenu.setOnTouchItemBgRes(R.color.colorWinBack);
+        mPopupMenu.add(menu_string_res, null, 0, 16, 0, null);
         mPopupMenu.setOnItemSelectListener(this);
-        mPopupMenu.setMarginTop(-2);
-        mPopupMenu.setMarginHorizontal(10);
+        mPopupMenu.setMarginTop(-ScreenUtils.getStatusHeight(this));
+        mPopupMenu.setMarginHorizontal(15);
     }
 
     private void setViewPager() {
@@ -229,7 +254,8 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
         getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         HomeEventManager.getInstance().setToolbarTitle(getString(R.string.home), true);
-        mToolbarText.setOnClickListener(this);
+        mToolbar.setTitleTextView(mToolbarText);
+        mToolbarListText.setAlpha(0f);//默认为透明
     }
 
     private void setDrawerLayout() {
@@ -240,6 +266,30 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
                 KeyBoardUtils.closeKeybord(mSearchEdit, HomeActivity.this);
+            }
+
+            private int initL, initR, max;
+            private boolean isGetInitValues = false;
+
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
+                //滑动过程中,渐变隐藏标题,显示列表标题
+                mToolbarListText.setAlpha(slideOffset);
+                mToolbarText.setAlpha(1.0f - slideOffset);
+                //列表标题从左移动到中间
+                if (!isGetInitValues) {
+                    //获取列表标题的初始位置
+                    initL = mToolbarListText.getLeft();
+                    initR = mToolbarListText.getRight();
+                    int right = mToolbarText.getRight();
+                    max = right - mToolbarListText.getRight();
+                    isGetInitValues = true;
+                }
+                int move = (int) (slideOffset * max);
+                mToolbarListText.layout(initL + move, mToolbarListText.getTop(), initR + move +
+                        mToolbarListText
+                                .getWidth(), mToolbarListText.getBottom());
             }
         };
         mDrawLayout.addDrawerListener(mToggle);
@@ -266,6 +316,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
                 }
             }
         });
+        mClearList.setOnClickListener(this);
     }
 
     /**
@@ -300,6 +351,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         mPopupMenu.onKeyUp(keyCode);
+//        HomeEventManager.getInstance().hideStatus(getWebView());
         return super.onKeyUp(keyCode, event);
     }
 
@@ -404,6 +456,14 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
         mPresenter = null;
         HomeEventManager.getInstance().destroy();//释放引用。否则会出现功能异常
         super.onDestroy();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        L.e("new Intent");
+        mDrawLayout.openDrawer(Gravity.START);
+        mListView.setSelection(mList.size());
     }
 
     /**
@@ -531,5 +591,17 @@ public class HomeActivity extends BaseActivity implements IHomeView, View.OnClic
 
     public PopWinMenu getPopupMenu() {
         return mPopupMenu;
+    }
+
+    public Toolbar getToolbar() {
+        return mToolbar;
+    }
+
+    public LinearLayout getBottomView() {
+        return mBottomView;
+    }
+
+    public View getRootView() {
+        return getWebView();
     }
 }

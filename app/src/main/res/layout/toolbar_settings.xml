@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar
+<com.xiajue.browser.localwebbrowser.view.custom.ExtendedToolbar
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/settings_toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/toolbar_color">
+    android:minHeight="?attr/actionBarSize">
 
     <TextView
         android:layout_width="wrap_content"
@@ -14,4 +14,4 @@
         android:text="@string/settings"
         android:textColor="@color/toolbarTextColor"
         android:textSize="18sp"/>
-</android.support.v7.widget.Toolbar>
+</com.xiajue.browser.localwebbrowser.view.custom.ExtendedToolbar>

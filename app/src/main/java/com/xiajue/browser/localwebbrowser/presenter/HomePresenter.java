@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,7 +11,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -24,14 +22,16 @@ import com.xiajue.browser.localwebbrowser.model.bean.HomeListBean;
 import com.xiajue.browser.localwebbrowser.model.bean.RemoveBean;
 import com.xiajue.browser.localwebbrowser.model.database.DatabaseDao;
 import com.xiajue.browser.localwebbrowser.model.manager.DialogManager;
-import com.xiajue.browser.localwebbrowser.model.manager.DownloadManager;
 import com.xiajue.browser.localwebbrowser.model.manager.HomeEventManager;
 import com.xiajue.browser.localwebbrowser.model.manager.PopupManager;
 import com.xiajue.browser.localwebbrowser.model.manager.Settings;
 import com.xiajue.browser.localwebbrowser.model.manager.SettingsUtils;
+import com.xiajue.browser.localwebbrowser.model.manager.MDownloadManager;
+import com.xiajue.browser.localwebbrowser.model.manager.MJNotificationManager;
 import com.xiajue.browser.localwebbrowser.model.utils.L;
 import com.xiajue.browser.localwebbrowser.model.utils.OpenFileUtils;
 import com.xiajue.browser.localwebbrowser.model.utils.SPUtils;
+import com.xiajue.browser.localwebbrowser.model.utils.StringUtils;
 import com.xiajue.browser.localwebbrowser.view.activity.viewInterface.IHomeView;
 
 import java.io.File;
@@ -39,8 +39,6 @@ import java.util.List;
 
 import ru.bartwell.exfilepicker.ExFilePicker;
 import ru.bartwell.exfilepicker.data.ExFilePickerResult;
-
-import static com.xiajue.browser.localwebbrowser.model.manager.DownloadManager.getFileName;
 
 /**
  * xiaJue 2017/9/15创建
@@ -69,6 +67,7 @@ public class HomePresenter {
         HomeEventManager.initializeInstance(mContext, mIHomeView);
 //        mEventManager.initializeWebView(mIHomeView.getWebView());
         mEventManager = HomeEventManager.getInstance();
+        mManager = new MJNotificationManager(mContext);
     }
 
     /**
@@ -105,9 +104,17 @@ public class HomePresenter {
             case R.id.home_about_iv:
                 mIHomeView.getViewPager().setCurrentItem(2);
                 break;
-            case R.id.home_toolbar_text:
-                Toast.makeText(mContext, mIHomeView.getActivity().getToolbarTitle(), Toast
-                        .LENGTH_SHORT).show();
+            case R.id.home_drawer_clear_list:
+                //清空list
+                if (mIHomeView.getList().size() > 0) {
+                    mIHomeView.getList().clear();
+                    mIHomeView.getAdapter().notifyDataSetChanged();
+                    //删除所有数据
+                    mDatabaseDao.deleteAll(new HomeListBean());
+                    mDatabaseDao.deleteAll(new CollectionBean());
+                    mDatabaseDao.deleteAll(new RemoveBean());
+                    mIHomeView.getActivity().setDrawerIsNull(View.VISIBLE);
+                }
                 break;
         }
     }
@@ -216,10 +223,10 @@ public class HomePresenter {
                         mIHomeView.getAdapter().notifyDataSetChanged();
                         mIHomeView.getActivity().setListProgressBarVisible(View.GONE);
                         int visible;
-                        if(mIHomeView.getList().size()==0){
-                            visible=View.VISIBLE;
-                        }else{
-                            visible=View.GONE;
+                        if (mIHomeView.getList().size() == 0) {
+                            visible = View.VISIBLE;
+                        } else {
+                            visible = View.GONE;
                         }
                         mIHomeView.getActivity().setDrawerListSize(visible, mIHomeView
                                 .getListView().getFirstVisiblePosition() + "/" + mIHomeView
@@ -266,29 +273,40 @@ public class HomePresenter {
         }
     }
 
+    MJNotificationManager mManager;
+
     /**
      * popupMenu选择时
      */
     public void onItemSelect(int selectIndex) {
         switch (selectIndex) {
             case 0:
+                //刷新页面
+                mEventManager.menuRefresh();
+                break;
+            case 1:
                 //关闭网页
                 mEventManager.menuCloseWeb();
                 break;
-            case 1:
+            case 2:
                 mEventManager.menuCopyLink();
                 break;
-            case 2:
+            case 3:
                 //从浏览器打开链接
                 mEventManager.menuBrowserOpen();
                 break;
-            case 3:
+            case 4:
                 //保存离线网页
                 mEventManager.menuSaveWeb();
                 break;
-            case 4:
+            case 5:
                 mEventManager.menuExit();
                 break;
+            //调试用
+//            case 6:
+//                mManager.initDownNotification("测试");
+//                mManager.updateDownNotification(R.string.download_ing, 50, null);
+//                break;
         }
     }
 
@@ -297,10 +315,9 @@ public class HomePresenter {
      */
     public void onMenuItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_home_refresh:
-                //刷新页面
-                if (mIHomeView.getViewPager().getCurrentItem() == 1)
-                    mIHomeView.getWebView().reload();
+            case R.id.menu_home_full_screen:
+                //全屏显示
+                HomeEventManager.getInstance().menuFullScreen();
                 break;
         }
     }
@@ -433,38 +450,13 @@ public class HomePresenter {
             public void onSaveImage() {
                 //保存图片到本地
                 L.e(result.getExtra());
-                String path = result.getExtra();
+                String url = result.getExtra();
+                L.e("url=" + url);
                 //下载图片
-                DownloadManager.download(Settings.getImageSavePath(mContext, getFileName
-                        (path), ""), path, new DownloadManager.DownloadCallback() {
-                    @Override
-                    public void success(File file) {
-                        //下载成功
-                        ((Activity) mContext).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(mContext, R.string.save_success, Toast
-                                        .LENGTH_SHORT).show();
-                            }
-                        });
-                        //通知系统图库更新
-                        mContext.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
-                                Uri.parse
-                                        ("file://" + file)));
-                    }
-
-                    @Override
-                    public void failure() {
-                        //下载失败
-                        ((Activity) mContext).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(mContext, R.string.save_failure, Toast
-                                        .LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
+                MDownloadManager.getInstance(mContext).setNotify(false).
+                        downloadFile(url, Settings.getImageSavePath(mContext, StringUtils.getName
+                                (url), ""), new int[]{0, R
+                                .string.save_success, R.string.save_failure});
             }
         });
     }
@@ -478,8 +470,11 @@ public class HomePresenter {
         return new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                x = (int) event.getX();
-                y = (int) event.getY();
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    L.e("touch  down...");
+                    x = (int) event.getX();
+                    y = (int) event.getY();
+                }
                 return false;
             }
         };

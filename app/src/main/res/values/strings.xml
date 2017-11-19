@@ -32,18 +32,20 @@
     com.squareup.retrofit2:converter-scalars:2.0.0-beta4\n
     universal-image-loader-1.9.5.jar\n
     com.davemorrissey.labs:subsampling-scale-image-view:3.6.0\n
-    popupwindowmenu:1.0\n\n
+    popupwindowmenu:1.0\n
+    com.fynn.fluidlayout:fluidlayout:1.0\n
+    cn.woblog.android:downloader:1.0.1\n\n
     </string>
     <string name="home_image">首页图片</string>
     <string name="ganhuo">
-        『<html><a href='#'>每日妹子』</a>来源:\n
+        <html><a href='#'>『每日妹子』</a>来源:\n
         <a href='http://gank.io/'>gank.io</a></html>干货集中营\n
     </string>
     <string name="bing">
-        『<html><a href='#'>风景图片』</a>来源:\n
+        <html><a href='#'>『风景图片』</a>来源:\n
             <a href='https://bing.ioliu.cn/'>bing.ioliu.cn</a></html>必应图片
     </string>
-    <string name="app_string">本地的网页浏览器。可以方便地浏览手机里缓存的网页。也可浏览/缓存在线网页。\n\n该软件开发的初衷是因为作者有次在手机中保存了很多离线网页,但是每次从文件管理中打开比较麻烦,本着开发练手打怪升级的理念于是就写了这款软件。它的作用就是把一堆网页文件汇集起来方便打开(吧)</string>
+    <string name="app_string">本地的网页浏览器。可以方便地浏览手机里缓存的网页。也可浏览/缓存在线网页。\n\n该软件开发的初衷是因为作者有次在手机中保存了很多离线网页,但是要打开浏览比较麻烦,为了方便浏览/管理所以开发了这款软件。它的作用就是把一堆网页文件汇集起来方便浏览(吧)</string>
     <string name="meizi_text">每日妹子</string>
     <string name="save">保存</string>
     <string name="share">分享</string>
@@ -57,12 +59,12 @@
     <string name="about">关于</string>
     <string name="web">浏览</string>
     <string name="help">使用帮助:</string>
-    <string name="help_add">打开侧滑菜单,点击选择目录,选择你的网页文件目录,如:"Storage/sdcard/webFile/" 等待数据加载完成即可。</string>
-    <string name="help_link">如果点击离线网页中的链接或输入地址访问的网站，以及访问项目地址等都需要手机的网络。</string>
-    <string name="help_tag">如果浏览的网页中有需要左右滑动的功能,可能会与软件Tag的滑动冲突,可以到设置中关闭Tag的滑动切换。</string>
-    <string name="help_item_button">如需移除、删除、收藏某些离线网页，在右侧菜单中条目向左滑动可以得到三个按钮。-号为移除，移除的条目可以恢复。删除的条目无法恢复。</string>
-    <string name="help_search">可根据关键字搜索条目。</string>
-    <string name="help_bug">该软件设计、开发、测试均由作者完成。难免会存在一些隐藏潜在的BUG。如果使用过程中遇到影响正常使用的BUG,可以通过邮箱告诉我。邮箱就是我的支付宝账号。</string>
+    <string name="help_add">在侧滑菜单中点击选择目录,选择网页文件的目录,如:"Storage/sdcard/webFile/" 等待数据加载完成。</string>
+    <string name="help_link">如果点击离线网页中的链接或输入地址访问的网页等都需要连接网络。</string>
+    <string name="help_tag">如果浏览的网页中有需要左右滑动的功能,可能会与软件Tag的滑动冲突,可以点击右上角的全屏按钮切换到全屏模式或到设置中关闭Tag的滑动切换。</string>
+    <string name="help_item_button">操作列表条目:在列表的条目中向左滑动可以得到三个按钮。移除，收藏和删除。</string>
+    <string name="help_search">打开Overflow菜单获得更多操作</string>
+    <string name="help_bug">该软件设计、开发、测试均由作者完成。难免会存在一些隐藏潜在的BUG。如果使用过程中遇到影响正常使用的BUG,可以通过邮箱告诉我。邮箱：xiajueya@outlook.com</string>
     <string name="copy_link_address">复制链接地址</string>
     <string name="save_local_web">保存离线网页</string>
     <string name="exit">退出</string>
@@ -99,15 +101,16 @@
     <string name="load_history">浏览历史</string>
     <string name="clear">清空</string>
     <string name="close_web">关闭网页</string>
+    <string name="full_screen">全屏浏览</string>
     <string name="delete">删除</string>
     <string name="headerTitle">操作</string>
     <string name="picture_bing"><![CDATA[Picture&Bing]]></string>
     <string name="pb_project_address">项目地址:『<html><a href='#'>github.com/xiaJue/PictureBing</a></html>』</string>
-    <string name="download">APK『<html><a href='#'>下载</a></html>』</string>
+    <string name="download"><html><a href='#'>下载</a></html></string>
     <string name="pb_by">项目推荐:每天更新一张清晰风景图片。『首页必应图片』</string>
     <string name="not_contents">还没有内容...</string>
-    <string name="daShang">完全开源的软件。如果对你有帮助，可以分享出去。可以请我喝杯奶茶。点击这里复制我的『<html><a href='#'>支付宝</a></html>』</string>
-    <string name="download_success">下载成功</string>
+    <string name="daShang">该软件完全开源、免费。非常感谢你下载使用。如果对你有帮助就再好不过。但是个人开发者并没有稳定的收入,如果支持的话可以请我喝杯咖啡。</string>
+    <string name="download_success">下载成功。可在列表中查看</string>
     <string name="download_failure">下载失败</string>
     <string name="start_download">正在下载...</string>
     <string name="cant_download">无法下载该文件</string>
@@ -117,4 +120,18 @@
     <string name="load_meizi_image_error">加载\"妹子\"图片失败</string>
     <string name="load_bing_image_error">加载\"必应\"图片失败</string>
     <string name="file_not_exist">文件貌似不存在。可能已经删除或保存失败了。是否删除该条目?</string>
+    <string name="file_exist">已经存在同名文件,是否重命名为[名称+当前时间]?</string>
+    <string name="weixin">微信打赏</string>
+    <string name="zhifubao">支付宝打赏</string>
+    <string name="weixin_ds">weixin_ds</string>
+    <string name="zfb_ds">zhifubao_ds</string>
+    <string name="list">列表</string>
+    <string name="cancel_full">取消全屏</string>
+    <string name="common_website">常用网址:</string>
+    <string name="version_update">应用有新版本了。可以到应用商店去更新了哦!</string>
+    <string name="o_jb_k_la">知道了</string>
+    <string name="not_bb_la">该版本不再提醒</string>
+    <string name="download_ing">下载中...</string>
+    <string name="ddd">关闭错误页面</string>
+    <string name="url_error">页面链接貌似有问题：</string>
 </resources>

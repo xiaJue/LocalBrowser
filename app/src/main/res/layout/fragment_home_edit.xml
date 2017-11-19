@@ -15,15 +15,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:orientation="vertical">
 
         <com.xiajue.browser.localwebbrowser.view.custom.SearchEditText
             android:id="@+id/home_home_url_edit"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             app:text="@string/in_url_open"
+            app:textColor="@color/titleTextColor"
             app:textHint="@string/input_url"
             app:textSize="15"/>
+
+        <TextView
+            android:id="@+id/home_home_common_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/common_website"
+            android:textColor="@color/titleTextColor"
+            android:visibility="gone"/>
+
+        <com.fynn.fluidlayout.FluidLayout
+            android:id="@+id/home_home_fluidLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:visibility="gone">
+        </com.fynn.fluidlayout.FluidLayout>
+
+
     </LinearLayout>
 </LinearLayout>

@@ -5,6 +5,7 @@ import com.xiajue.browser.localwebbrowser.model.bean.BingBeanList;
 import com.xiajue.browser.localwebbrowser.model.bean.MeiziBeanList;
 
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -60,5 +61,12 @@ public class RetrofitUtils {
             mMeizhiCall.cancel();
             mBingCall.cancel();
         }
+    }
+
+    public static void getContentFromInternet(final String url, final okhttp3.Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder().url(url).build();
+        okhttp3.Call call = client.newCall(request);
+        call.enqueue(callback);
     }
 }

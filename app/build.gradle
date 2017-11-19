@@ -48,4 +48,6 @@ dependencies {
     compile files('libs/universal-image-loader-1.9.5.jar')
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.6.0'
     compile project(':popupwindowmenu')
+    compile 'com.fynn.fluidlayout:fluidlayout:1.0'
+    compile 'cn.woblog.android:downloader:1.0.1'
 }

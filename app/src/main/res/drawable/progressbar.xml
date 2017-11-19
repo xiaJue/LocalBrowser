@@ -6,10 +6,10 @@
             <corners android:radius="2dip" />
             <gradient
                 android:angle="0"
-                android:centerColor="#ff5a5d5a"
+                android:centerColor="#55000000"
                 android:centerY="0.75"
-                android:endColor="#ff747674"
-                android:startColor="#ff9d9e9d" />
+                android:endColor="@color/item_BgColor"
+                android:startColor="@color/item_BgColor" />
         </shape>
     </item>
 

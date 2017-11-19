@@ -12,35 +12,48 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.xiajue.browser.localwebbrowser.R;
 import com.xiajue.browser.localwebbrowser.presenter.ImagePresenter;
 import com.xiajue.browser.localwebbrowser.view.activity.viewInterface.IImageView;
+import com.xiajue.browser.localwebbrowser.view.custom.ExtendedToolbar;
 
 /**
  * xiaJue 2017/9/20创建
  */
 public class ImageActivity extends BaseActivity implements IImageView, View.OnClickListener {
     private SubsamplingScaleImageView mImageView;
-    private Toolbar mToolbar;
+    private ExtendedToolbar mToolbar;
     private TextView mTitleTextView;
     private ImagePresenter mPresenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
+        super.onCreate(savedInstanceState);
         mPresenter = new ImagePresenter(this);
         bindView();
         set();
     }
 
+    @Override
+    public Toolbar getToolbarToBaseActivity() {
+        return getView(R.id.image_toolbar);
+    }
+
     private void set() {
         String url = getIntent().getStringExtra("image_url");
         String type = getIntent().getStringExtra("type");
-        mPresenter.loadImage(url);
+        if (url == null) {
+            int res = getIntent().getIntExtra("image_res", 0);
+            String name = getIntent().getStringExtra("name");
+            mPresenter.loadImageRes(res, name);
+        } else {
+            mPresenter.loadImageUrl(url);
+        }
 
         mTitleTextView.setText(type);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setTitleTextView(mTitleTextView);
 
         mImageView.setOnClickListener(this);
     }

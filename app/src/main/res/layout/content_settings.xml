@@ -39,7 +39,7 @@
                     android:drawableLeft="@drawable/settings_radio_bg"
                     android:drawablePadding="5dp"
                     android:text="@string/settings_white"
-                    android:textColor="#88000000"
+                    android:textColor="@color/minTextColor"
                     android:textSize="13sp"/>
 
                 <RadioButton
@@ -51,7 +51,7 @@
                     android:drawableLeft="@drawable/settings_radio_bg"
                     android:drawablePadding="5dp"
                     android:text="@string/settings_last"
-                    android:textColor="#88000000"
+                    android:textColor="@color/minTextColor"
                     android:textSize="13sp"/>
 
                 <RadioButton
@@ -63,7 +63,7 @@
                     android:drawableLeft="@drawable/settings_radio_bg"
                     android:drawablePadding="5dp"
                     android:text="@string/settings_in"
-                    android:textColor="#88000000"
+                    android:textColor="@color/minTextColor"
                     android:textSize="13sp"/>
             </RadioGroup>
 
@@ -84,10 +84,11 @@
                     android:textSize="13sp"
                     android:visibility="gone"/>
 
-                <Button
+                <TextView
                     android:id="@+id/settings_start_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/button_back"
                     android:text="@string/save"
                     android:textSize="13sp"
                     android:visibility="gone"/>
@@ -144,6 +145,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:text="@string/settings_dont_load_path_text"
+                    android:textColor="@color/minTextColor"
                     android:textSize="13dp"/>
             </LinearLayout>
 
@@ -182,6 +184,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:text="@string/settings_scroll_tag_text"
+                    android:textColor="@color/minTextColor"
                     android:textSize="13dp"/>
             </LinearLayout>
 
@@ -227,12 +230,14 @@
                     android:editable="false"
                     android:focusable="false"
                     android:hint="@string/settings_input_save_path"
+                    android:textColor="@color/minTextColor"
                     android:textSize="13sp"/>
 
-                <Button
+                <TextView
                     android:id="@+id/settings_file_path_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/button_back"
                     android:text="@string/settings_selete"
                     android:textSize="13sp"/>
 
@@ -273,12 +278,14 @@
                     android:editable="false"
                     android:focusable="false"
                     android:hint="@string/settings_input_save_path"
+                    android:textColor="@color/minTextColor"
                     android:textSize="13sp"/>
 
-                <Button
+                <TextView
                     android:id="@+id/settings_image_path_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/button_back"
                     android:text="@string/settings_selete"
                     android:textSize="13sp"/>
 

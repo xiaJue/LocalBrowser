@@ -31,15 +31,15 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="@string/clear"
-            android:textColor="@color/refresh_color"
+            android:textColor="@color/colorAccent"
             android:textSize="15sp"/>
     </RelativeLayout>
-
-    <ListView
+    <!--适应多个滑动嵌套的listView-->
+    <com.xiajue.browser.localwebbrowser.view.custom.AdaptListView
         android:id="@+id/home_home_listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:dividerHeight="0dp">
-    </ListView>
+    </com.xiajue.browser.localwebbrowser.view.custom.AdaptListView>
 
 </LinearLayout>

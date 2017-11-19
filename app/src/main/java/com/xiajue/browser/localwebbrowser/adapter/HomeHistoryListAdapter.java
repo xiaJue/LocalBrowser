@@ -96,10 +96,10 @@ public class HomeHistoryListAdapter extends BaseAdapter {
 //        if (mListView.getChildCount() > 0) {
         int height = getItemHeight();
         int listHeight;
-        if (getCount() <= Config.HISTORY_ITEM_SHOW_MAX_ITEM) {
+        if (getCount() * height <= getMaxHeight()) {
             listHeight = height * getCount();
         } else {
-            listHeight = height * Config.HISTORY_ITEM_SHOW_MAX_ITEM;
+            listHeight = getMaxHeight();
         }
         mListView.getLayoutParams().height = listHeight - DensityUtils.dp2px(mContext, 10);
         mHomeHistoryRootView.invalidate();
@@ -109,8 +109,21 @@ public class HomeHistoryListAdapter extends BaseAdapter {
         super.notifyDataSetChanged();
     }
 
+    /**
+     * 获得list最大高度
+     *
+     * @return
+     */
+    private int getMaxHeight() {
+        return (ScreenUtils.getScreenHeight(mContext) / 10 * Config.HISTORY_MAX_HEIGHT);
+    }
+
+    /**
+     * 获得list条目高度
+     *
+     * @return
+     */
     private int getItemHeight() {
-        return (ScreenUtils.getScreenHeight(mContext) / 7 * 3) / Config
-                .HISTORY_ITEM_SHOW_MAX_ITEM;//屏幕的2/3
+        return getMaxHeight() / Config.HISTORY_ITEM_HEIGHT;
     }
 }

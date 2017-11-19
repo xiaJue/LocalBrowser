@@ -3,6 +3,7 @@ package com.xiajue.browser.localwebbrowser.model.manager;
 import android.content.Context;
 
 import com.xiajue.browser.localwebbrowser.model.Config;
+import com.xiajue.browser.localwebbrowser.model.utils.L;
 import com.xiajue.browser.localwebbrowser.model.utils.SPUtils;
 
 import java.io.File;
@@ -71,9 +72,11 @@ public class Settings {
      */
     public static String getFileSavePath(Context context, String name, String end) {
         String path = SPUtils.getInstance(context).getString(FILE_SAVE_PATH, Config.WEB_SAVE_PATH);
+        L.e("path=" + path);
         File file = new File(path);
         if (!file.exists()) {
-            file.mkdir();//创建目录
+            boolean mkdirs = file.mkdirs();//创建目录
+            L.e(" mkdirs..." + mkdirs);
         }
         if (name.isEmpty() && end.isEmpty()) {
             return path;
@@ -90,15 +93,23 @@ public class Settings {
 
     public static String getImageSavePath(Context context, String name, String end) {
         String path = SPUtils.getInstance(context).getString(IMAGE_SAVE_PATH, Config
-                .DOWNLOAD_IMAGE_DIR);
+                .WEB_SAVE_PATH);
+        L.e("path=" + path);
         File file = new File(path);
         if (!file.exists()) {
-            file.mkdir();//创建目录
+            boolean mkdirs = file.mkdirs();//创建目录
+            L.e(" mkdirs..." + mkdirs);
         }
         if (name.isEmpty() && end.isEmpty()) {
             return path;
         }
         return path + File.separator + name + end;
+    }
+
+    public static void createDir(Context context) {
+        L.e("createDir");
+        getFileSavePath(context, "", "");
+        getImageSavePath(context, "", "");
     }
 
     public static void setImagePathEditText(Context context, String path) {
