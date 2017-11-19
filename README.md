@@ -14,7 +14,7 @@ apk 下载<a href='https://github.com/xiaJue/LocalBrowser/raw/master/localBrowse
 
 <br>
 
-<img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/1.png"> <img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/2.png"> 
+<img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/1.jpg"> <img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/2.png"> 
 
 <img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/3.png"> <img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/4.png"> 
 
