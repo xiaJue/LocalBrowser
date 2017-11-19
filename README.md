@@ -1,20 +1,10 @@
 LocalBrowser
 ===========================
-<br>
+
 本地的网页浏览器。可以方便地浏览手机里缓存的网页。也可浏览/缓存在线网页。
-<br>
-该软件开发的初衷是因为作者有次在手机中保存了很多离线网页,但是每次从文件管理中打开比较麻烦
-<br>
-本着开发练手打怪升级的理念于是就写了这款软件。它的作用就是把一堆网页文件汇集起来方便打开(吧)
-<br>
+该软件开发的初衷是因为作者有次在手机中保存了很多离线网页,但是要打开浏览比较麻烦,为了方便浏览/管理就写了个界面，然后不断尝试和修改中就成这样了，虽然它依然很简单。
 
 #### Version 1.0
-
-* 浏览html、mht网页文件
-* 缓存在线网页
-* 精简浏览器
-* 等等<img width="32" height="17" src="/%E6%88%AA%E5%9B%BE/hj.jpg">
-
 
 apk 下载<a href='https://github.com/xiaJue/LocalBrowser/raw/master/localBrowser.apk'>download</a>
 
@@ -24,11 +14,11 @@ apk 下载<a href='https://github.com/xiaJue/LocalBrowser/raw/master/localBrowse
 
 <br>
 
-<img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/Screenshot_2017-10-31-17-32-45.png"> <img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/Screenshot_2017-10-31-17-32-55.png"> 
+<img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/1.png"> <img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/2.png"> 
 
-<img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/Screenshot_2017-10-31-17-34-02.png"> <img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/Screenshot_2017-10-31-17-35-24.png"> 
+<img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/3.png"> <img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/4.png"> 
 
-<img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/Screenshot_2017-10-31-17-36-59.png"> <img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/Screenshot_2017-10-31-17-38-21.png"> 
+<img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/5.png"> <img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/6.png"> 
 
 <br>
 
@@ -50,6 +40,8 @@ apk 下载<a href='https://github.com/xiaJue/LocalBrowser/raw/master/localBrowse
 * universal-image-loader-1.9.5.jar(图片加载)
 * com.davemorrissey.labs:subsampling-scale-image-view:3.6.0(大图显示)
 * popupwindowmenu:1.0
+* com.fynn.fluidlayout:fluidlayout:1.0(流式布局)
+* cn.woblog.android:downloader:1.0.1(下载文件)
 
 <br>
 
