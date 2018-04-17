@@ -1,24 +1,8 @@
 LocalBrowser
 ===========================
-
-本地的网页浏览器。可以方便地浏览手机里缓存的网页。也可浏览/缓存在线网页。
-该软件开发的初衷是因为作者有次在手机中保存了很多离线网页,但是要打开浏览比较麻烦,为了方便浏览/管理就写了个界面，然后不断尝试和修改中就成这样了，虽然它依然很简单。
-
 #### Version 1.0
 
 apk 下载<a href='https://github.com/xiaJue/LocalBrowser/raw/master/localBrowser.apk'>download</a>
-
-<br>
-
-*****
-
-<br>
-
-<img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/1.jpg"> <img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/2.png"> 
-
-<img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/3.png"> <img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/4.png"> 
-
-<img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/5.png"> <img width="250" height="444" src="/%E6%88%AA%E5%9B%BE/6.png"> 
 
 <br>
 
@@ -57,12 +41,6 @@ apk 下载<a href='https://github.com/xiaJue/LocalBrowser/raw/master/localBrowse
             <a href='https://bing.ioliu.cn/'>bing.ioliu.cn</a>
             必应图片
             <br>
-<br>
-
-#### 维护更新：
-
-<br>
-有空的话
 <br>
 
 *****
